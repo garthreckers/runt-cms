@@ -7,4 +7,4 @@ def home():
 
 
 if __name__ == "__main__":
-	trigger.run()
+	trigger.run('0.0.0.0')
