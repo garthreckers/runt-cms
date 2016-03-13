@@ -5,7 +5,6 @@ Builds the basics for Runt
 """
 import jinja2
 from flask import Flask, render_template
-from runt import trigger
 
 trigger = Flask(__name__)
 
