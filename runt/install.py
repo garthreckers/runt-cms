@@ -1,17 +1,6 @@
-#!/bin/env/Python3
-from flask.ext.mysqldb import MySQL
-from . import config
-from .trigger import trigger
+from .models.base_model import mysql_db # Update later 
+from .models.settings_model import Settings
 
-
-def build():
-	query = "CREATE TABLE settings (\
-		id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,\
-		field VARCHAR(50) NOT NULL,\
-		value VARCHAR(120),\
-		)"
-	try:
-		cursor = mysql.connect().cursor()
-		cursor.execute(query)
-	except e:
-		raise e
+def install():
+	mysql_db.connect()
+	mysql_db.create_tables([Settings])
