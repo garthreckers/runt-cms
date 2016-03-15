@@ -1,5 +1,4 @@
 import os
-import jwt
 from flask import session
 from ..models.users_model import Users
 from werkzeug.security import check_password_hash
@@ -11,10 +10,8 @@ def auth(username, password):
 	hash_pass = get_user.password
 	if check_password_hash(hash_pass, password):
 		id = get_user.id
-		secret = os.urandom(24)
-		token = jwt.encode({'user_id': id}, secret, algorithm='HS256')
-		session['secret'] = secret
-		session['token'] = token
+		session.permanent = True
+		session['uid'] = id
 		return True
 	return False
 
@@ -24,15 +21,13 @@ def check_username(username):
 	return False
 
 def logged_in():
-	if session.get('token') is None or session.get('secret') is None:
+	if session.get('uid') is None:
 		return False
 
-	token = session['token']
-	secret = session['secret']
-	decode = jwt.decode(token, secret, algorithms=['HS256'])
+	uid = session['uid']
 		
-	if decode:
-		return str(decode['user_id'])
+	if uid:
+		return str(uid)
 
 	return False
 
