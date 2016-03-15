@@ -3,14 +3,18 @@
 Builds the basics for Runt
 
 """
+import os
 import jinja2
+from datetime import timedelta
 from . import config
 from flask import Flask, render_template, request
-from .install import install, check_install
-from .auth import auth, check_username
+from .utils.install import install, check_install
+from .utils.auth import auth, check_username, logged_in
 
 
 trigger = Flask(__name__)
+trigger.secret_key = os.urandom(24)
+trigger.permanent_session_lifetime = timedelta(hours=3)
 
 trigger.debug = True
 
@@ -81,6 +85,10 @@ def install_runt():
 
 	return render_template('admin-install.html', error=err_return, values=values)
 
-
+@trigger.route("/admin/lockout")
+def lockout_test():
+	if logged_in():
+		return "logged in id: " + logged_in()
+	return "Not logged in... get out of here"
 
 	

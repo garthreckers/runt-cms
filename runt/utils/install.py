@@ -1,6 +1,6 @@
-from .models.base_model import mysql_db # Update later 
-from .models.settings_model import Settings
-from .models.users_model import Users
+from ..models.base_model import mysql_db # Update later 
+from ..models.settings_model import Settings
+from ..models.users_model import Users
 
 def check_install():
 	if Settings.table_exists() or Users.table_exists():
