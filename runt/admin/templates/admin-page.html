@@ -1,0 +1,10 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	<ul>
+		{% for r in return_list %}
+			<li>{{ r }}</li>
+		{% endfor %}
+		<li> ------ </li>
+	</ul>
+{% endblock %}

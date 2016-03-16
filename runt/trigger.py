@@ -5,13 +5,17 @@ Builds the basics for Runt
 """
 import os
 import jinja2
+import pprint
+from peewee import *
 from datetime import timedelta
+from functools import wraps
 from . import config
 from flask import Flask, render_template, request,\
 	send_from_directory, redirect, url_for
 from .admin.install import install, check_install
 from .admin.auth import auth, check_username, logged_in
-
+from .models.users_model import Users
+from .models.base_model import BaseModel, mysql_db
 
 trigger = Flask(__name__)
 trigger.secret_key = os.urandom(24)
@@ -28,14 +32,35 @@ theme_loader = jinja2.ChoiceLoader([
 	])
 trigger.jinja_loader = theme_loader
 
-@trigger.route("/admin")
+"""
+Check if user is logged in using @login_checker decorator
+"""
+def login_checker(func):
+	@wraps(func)
+	def func_wrap(*args, **kwargs):
+		if logged_in():
+			return func(*args, **kwargs)
+		else:
+			return redirect(url_for('admin_login'))
+	return func_wrap
+
+"""
+Set up static admin css folder
+"""
+@trigger.route('/admin/static/<path:filename>', strict_slashes=False)
+def admin_static(filename):
+	runt_root = os.path.dirname(os.path.realpath(__file__))
+	return send_from_directory(runt_root + '/admin/templates/', filename)
+
+
+@trigger.route('/admin', strict_slashes=False)
 def admin():
 	if not logged_in():
 		return redirect(url_for('admin_login'))
-	return "logged in id: " + logged_in()
+	return render_template('admin-main.html')
 	
 
-@trigger.route("/admin/login", methods=['GET', 'POST'])
+@trigger.route('/admin/login', methods=['GET', 'POST'], strict_slashes=False)
 def admin_login():
 
 	err_return = None
@@ -54,16 +79,23 @@ def admin_login():
 
 	return render_template('admin-login.html', error=err_return)
 
-"""
-Set up static admin css folder
-"""
-@trigger.route('/admin/static/<path:filename>')
-def admin_static(filename):
-	runt_root = os.path.dirname(os.path.realpath(__file__))
-	return send_from_directory(runt_root + '/admin/templates/', filename)
+@trigger.route('/admin/<page>', strict_slashes=False)
+@login_checker
+def admin_page(page):
+	tables = BaseModel.show_tables()
+	if page in tables:
+		#return_list = mysql_db.raw("SELECT * FROM %s", page)
+		return render_template('admin-page.html', pageheader="Users", return_list=tables)
+	return 'real 404'
 
+@trigger.route("/admin/add/<page>")
+def admin_add(page):
+	tables = BaseModel.show_tables()
+	if page in tables:
+		pass
+	return 'real 404'
 
-@trigger.route("/install", methods=['GET', 'POST'])
+@trigger.route('/install', methods=['GET', 'POST'], strict_slashes=False)
 def install_runt():
 	if not check_install:
 		return "You have already installed Runt CMS"

@@ -3,18 +3,26 @@
 {% block title %}Runt CMS Installation{% endblock %}
 
 {% block content %}
-	<form method="POST" action="">
 
-		<h2>Runt CMS Install</h2>
-		<strong>Create Admin login</strong><br />
-		{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
-		Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
-		{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
-		Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
-		{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
-		Password: <input type="password" name="password"><br />
-		Repeat Password: <input type="password" name="repeat-password"><br />
-		<input type="submit">
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<form method="POST" action="">
 
-	</form>
+				<h2>Runt CMS Install</h2>
+				<strong>Create Admin login</strong><br />
+				{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
+				Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
+				{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
+				Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
+				{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
+				Password: <input type="password" name="password"><br />
+				Repeat Password: <input type="password" name="repeat-password"><br />
+				<input type="submit">
+
+			</form>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

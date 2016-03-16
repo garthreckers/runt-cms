@@ -1,12 +1,30 @@
 @import "bootstrap/bootstrap";
 
-.container-test {
-	width: 100%;
+$dark: #333333;
+$light: #dddddd;
 
-	a {
-		color: white;
-		&:hover {
-			color: blue;
+body {
+	background: $light;
+}
+
+.admin-nav {
+	background-color: $dark;
+	color: $light;
+	ul {
+		margin-bottom: 0px;
+		li {
+			padding-left:0px;
+			padding-right: 0px;
+			a {
+				padding: 5px 15px;
+				color: $light;
+				display: block;
+				&:hover {
+					color: $dark;
+					background: $light;
+					text-decoration: none;
+				}
+			}
 		}
 	}
 }

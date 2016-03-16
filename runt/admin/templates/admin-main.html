@@ -1,0 +1,29 @@
+{% extends "admin-base.html" %}
+
+{% block content %}
+<nav class="admin-nav fixed">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<ul class="list-inline">
+					<li><a href="/admin">Admin Home</a></li>
+					<li><a href="/admin/settings">Settings</a></li>
+					<li><a href="/admin/users">Users</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			
+			<h1>{% if pageheader %}{{ pageheader }}{% else %}Dashboard{% endif %}</h1>
+
+			{% block inner_content %}{% endblock %}
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
