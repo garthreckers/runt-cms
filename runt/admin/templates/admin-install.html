@@ -1,31 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "admin-base.html" %}
 
-<title>Runt CMS Installation</title>
+{% block title %}Runt CMS Installation{% endblock %}
 
-</head>
-<body>
+{% block content %}
+	<form method="POST" action="">
 
-<div class="container">
-	<div class="wrap">
-		<div class="admin">
-			<form method="POST" action="">
-				<h2>Runt CMS Install</h2>
-				<strong>Create Admin login</strong><br />
-				{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
-				Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
-				{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
-				Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
-				{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
-				Password: <input type="password" name="password"><br />
-				Repeat Password: <input type="password" name="repeat-password"><br />
-				<input type="submit">
+		<h2>Runt CMS Install</h2>
+		<strong>Create Admin login</strong><br />
+		{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
+		Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
+		{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
+		Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
+		{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
+		Password: <input type="password" name="password"><br />
+		Repeat Password: <input type="password" name="repeat-password"><br />
+		<input type="submit">
 
-			</form>
-		</div>
-	</div>
-</div>
-
-</body>
-</html>
+	</form>
+{% endblock %}

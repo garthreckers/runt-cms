@@ -1,0 +1,11 @@
+{% extends "admin-base.html" %}
+
+{% block content %}
+	<form method="POST" action="" class="text-center">
+		<h2>Runt CMS</h2>
+		{% if error %}{{ error }}<br />{% endif %}
+		<p><input type="text" name="uname" placeholder="Username"></p>
+		<p><input type="password" name="password" placeholder="Password"></p>
+		<p><input type="submit"></p>
+	</form>
+{% endblock %}

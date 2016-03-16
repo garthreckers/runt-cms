@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>{% block title %}Runt CMS{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('admin_static', filename='css/admin.css')}}">
+<meta name="robot" content="none">
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+
+			{% block content %}{% endblock %}
+
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

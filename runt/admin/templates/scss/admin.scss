@@ -1,0 +1,12 @@
+@import "bootstrap/bootstrap";
+
+.container-test {
+	width: 100%;
+
+	a {
+		color: white;
+		&:hover {
+			color: blue;
+		}
+	}
+}
