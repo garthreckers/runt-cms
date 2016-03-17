@@ -1,0 +1,24 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	
+	<form method="POST" action="">
+		{% if error.err %}{{ error.err }}<br />{% endif %}
+
+		{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
+		Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
+		{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
+		Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
+		{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
+		Password: <input type="password" name="password"><br />
+		Repeat Password: <input type="password" name="repeat-password"><br />
+		Permissions Level: 
+			<select name="level">
+				<option value="basic" selected="selected">Basic</option>
+				<option value="admin">Admin</option>
+			</select><br />
+		<input type="submit">
+
+	</form>
+
+{% endblock %}

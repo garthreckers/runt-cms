@@ -15,7 +15,7 @@ from flask import Flask, render_template, request,\
 from .admin.install import install, check_install
 from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
-from .models.base_model import BaseModel, mysql_db
+from .models.base_model import BaseModel
 
 trigger = Flask(__name__)
 trigger.secret_key = os.urandom(24)
@@ -79,21 +79,60 @@ def admin_login():
 
 	return render_template('admin-login.html', error=err_return)
 
-@trigger.route('/admin/<page>', strict_slashes=False)
-@login_checker
-def admin_page(page):
-	tables = BaseModel.show_tables()
-	if page in tables:
-		#return_list = mysql_db.raw("SELECT * FROM %s", page)
-		return render_template('admin-page.html', pageheader="Users", return_list=tables)
-	return 'real 404'
+@trigger.route('/admin/users', strict_slashes=False)
+#@login_checker
+def admin_users_page():
+	return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
+	return render_template('admin-page.html', pageheader="Users", return_list=return_list)
 
-@trigger.route("/admin/add/<page>")
-def admin_add(page):
-	tables = BaseModel.show_tables()
-	if page in tables:
-		pass
-	return 'real 404'
+
+@trigger.route("/admin/add/user", methods=['GET', 'POST'], strict_slashes=False)
+def admin_user_add():
+
+	err_return = {}
+	values = {}
+
+	if request.method == 'POST':
+		u = Users()
+
+		uname = request.form['uname']
+		email = request.form['email']
+		password = request.form['password']
+		repeat_password = request.form['repeat-password']
+		level = request.form['level']
+
+		if not uname:
+			err_return['err_uname'] = "Username field is required"
+		elif u.select().where(Users.username == uname).exists():
+			err_return['err_uname'] = "Username already exists"
+		else:
+			values['uname'] = uname
+
+		if not email:
+			err_return['err_email'] = "Email field is required"
+		elif u.select().where(Users.email == email).exists():
+			err_return['err_email'] = "Email already exists"
+		else:
+			values['email'] = email
+
+		if not password:
+			err_return['err_password'] = "Password field is required"
+
+		if not repeat_password:
+			err_return['err_password'] = "Both password fields are required"
+		else:
+			if password != repeat_password:
+				err_return['err_password'] = "Passwords must match"
+
+
+		if not err_return:
+			p_word = u.hash_password(password)
+			created = u.create(username=uname, password=p_word, email=email, level=level)
+			if created: 
+				return redirect(url_for('admin_users_page'))
+			
+
+	return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
 
 @trigger.route('/install', methods=['GET', 'POST'], strict_slashes=False)
 def install_runt():
