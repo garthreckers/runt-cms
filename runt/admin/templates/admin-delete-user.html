@@ -1,0 +1,14 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	
+	<form method="POST" action="">
+		{% if error.err_delete %}{{ error.err_delete }}<br />{% endif %}
+		
+		Are you sure you want to delete? Type DELETE to confirm.<br />
+		<input type="text" name="delete"><br />
+		<input type="submit" value="Delete">
+
+	</form>
+
+{% endblock %}

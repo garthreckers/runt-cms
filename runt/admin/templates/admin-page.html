@@ -4,7 +4,7 @@
 	<a href="/admin/add/user">Add user</a>
 	<ul>
 		{% for r in return_list %}
-			<li>{{ r.id }} - {{ r.username }} - {{ r.level }}</li>
+			<li>{{ r.id }} - {{ r.username }} - {{ r.level }} - <a href="/admin/delete/user/{{ r.username }}">Delete</a></li>
 		{% endfor %}
 	</ul>
 {% endblock %}

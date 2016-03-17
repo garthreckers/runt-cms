@@ -87,6 +87,7 @@ def admin_users_page():
 
 
 @trigger.route("/admin/add/user", methods=['GET', 'POST'], strict_slashes=False)
+#@login_checker
 def admin_user_add():
 
 	err_return = {}
@@ -133,6 +134,24 @@ def admin_user_add():
 			
 
 	return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
+
+@trigger.route("/admin/delete/user/<uname>", methods=['GET', 'POST'], strict_slashes=False)
+#@login_checker
+def admin_user_delete(uname):
+	err_return = {}
+	"""
+	need to add condition so you cant delete user id of 1 or you cant delete yourself.
+	"""
+	if request.method == 'POST':
+		if request.form['delete'] == 'DELETE':
+			Users.delete().where(Users.username == uname).execute()
+
+			return redirect(url_for('admin_users_page'))
+		err_return['err_delete'] = "Oops. If you would like to delete this user please type DELETE"
+
+	return render_template('admin-delete-user.html', pageheader="Delete User", error=err_return)
+
+	
 
 @trigger.route('/install', methods=['GET', 'POST'], strict_slashes=False)
 def install_runt():

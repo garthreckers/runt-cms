@@ -3,7 +3,6 @@
 {% block inner_content %}
 	
 	<form method="POST" action="">
-		{% if error.err %}{{ error.err }}<br />{% endif %}
 
 		{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
 		Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
