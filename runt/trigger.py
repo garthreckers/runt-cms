@@ -16,7 +16,8 @@ from .admin.install import install, check_install
 from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
 from .models.base_model import BaseModel
-from .views import users
+from .models.settings_model import Settings
+from .controllers import users
 
 trigger = Flask(__name__)
 trigger.secret_key = os.urandom(24)
@@ -133,6 +134,11 @@ def install_runt():
 			return "<h1>Installed!</h1>"
 
 	return render_template('admin-install.html', error=err_return, values=values)
-
-
+"""
+started theme support
+@trigger.route('/')
+def index():
+	theme = Settings.select()
+	template_name = 
+	return render_template(template_name)"""
 	

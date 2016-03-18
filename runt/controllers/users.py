@@ -3,12 +3,12 @@ from ..admin.auth import login_checker
 from ..models.users_model import Users
 from flask import render_template, request, redirect
 
-@login_checker
+#@login_checker
 def admin_page():
 	return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
 	return render_template('admin-page.html', pageheader="Users", return_list=return_list)
 
-@login_checker
+#@login_checker
 def admin_add():
 
 	err_return = {}
@@ -56,7 +56,7 @@ def admin_add():
 
 	return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
 
-@login_checker
+#@login_checker
 def admin_delete(uname):
 	"""
 	Need to add something to prevent super admin from being deleted
