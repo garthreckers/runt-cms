@@ -16,6 +16,7 @@ from .admin.install import install, check_install
 from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
 from .models.base_model import BaseModel
+from .views import users
 
 trigger = Flask(__name__)
 trigger.secret_key = os.urandom(24)
@@ -35,6 +36,7 @@ trigger.jinja_loader = theme_loader
 """
 Check if user is logged in using @login_checker decorator
 """
+"""
 def login_checker(func):
 	@wraps(func)
 	def func_wrap(*args, **kwargs):
@@ -43,7 +45,7 @@ def login_checker(func):
 		else:
 			return redirect(url_for('admin_login'))
 	return func_wrap
-
+"""
 """
 Set up static admin css folder
 """
@@ -80,76 +82,17 @@ def admin_login():
 	return render_template('admin-login.html', error=err_return)
 
 @trigger.route('/admin/users', strict_slashes=False)
-#@login_checker
 def admin_users_page():
-	return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
-	return render_template('admin-page.html', pageheader="Users", return_list=return_list)
+	return users.admin_page()
 
 
 @trigger.route("/admin/add/user", methods=['GET', 'POST'], strict_slashes=False)
-#@login_checker
 def admin_user_add():
-
-	err_return = {}
-	values = {}
-
-	if request.method == 'POST':
-		u = Users()
-
-		uname = request.form['uname']
-		email = request.form['email']
-		password = request.form['password']
-		repeat_password = request.form['repeat-password']
-		level = request.form['level']
-
-		if not uname:
-			err_return['err_uname'] = "Username field is required"
-		elif u.select().where(Users.username == uname).exists():
-			err_return['err_uname'] = "Username already exists"
-		else:
-			values['uname'] = uname
-
-		if not email:
-			err_return['err_email'] = "Email field is required"
-		elif u.select().where(Users.email == email).exists():
-			err_return['err_email'] = "Email already exists"
-		else:
-			values['email'] = email
-
-		if not password:
-			err_return['err_password'] = "Password field is required"
-
-		if not repeat_password:
-			err_return['err_password'] = "Both password fields are required"
-		else:
-			if password != repeat_password:
-				err_return['err_password'] = "Passwords must match"
-
-
-		if not err_return:
-			p_word = u.hash_password(password)
-			created = u.create(username=uname, password=p_word, email=email, level=level)
-			if created: 
-				return redirect(url_for('admin_users_page'))
-			
-
-	return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
+	return users.admin_add()
 
 @trigger.route("/admin/delete/user/<uname>", methods=['GET', 'POST'], strict_slashes=False)
-#@login_checker
 def admin_user_delete(uname):
-	err_return = {}
-	"""
-	need to add condition so you cant delete user id of 1 or you cant delete yourself.
-	"""
-	if request.method == 'POST':
-		if request.form['delete'] == 'DELETE':
-			Users.delete().where(Users.username == uname).execute()
-
-			return redirect(url_for('admin_users_page'))
-		err_return['err_delete'] = "Oops. If you would like to delete this user please type DELETE"
-
-	return render_template('admin-delete-user.html', pageheader="Delete User", error=err_return)
+	return users.admin_delete(uname)
 
 	
 

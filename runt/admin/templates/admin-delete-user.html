@@ -3,11 +3,15 @@
 {% block inner_content %}
 	
 	<form method="POST" action="">
-		{% if error.err_delete %}{{ error.err_delete }}<br />{% endif %}
-		
-		Are you sure you want to delete? Type DELETE to confirm.<br />
-		<input type="text" name="delete"><br />
-		<input type="submit" value="Delete">
+		{% if not error.super_admin %}
+			{% if error.err_delete %}{{ error.err_delete }}<br />{% endif %}
+			
+			Are you sure you want to delete? Type DELETE to confirm.<br />
+			<input type="text" name="delete"><br />
+			<input type="submit" value="Delete">
+		{% else %}
+			{{ error.super_admin }}
+		{% endif %}
 
 	</form>
 

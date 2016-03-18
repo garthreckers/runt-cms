@@ -1,5 +1,6 @@
 import os
-from flask import session
+from functools import wraps
+from flask import session, redirect, url_for
 from ..models.users_model import Users
 from werkzeug.security import check_password_hash
 
@@ -31,3 +32,12 @@ def logged_in():
 
 	return False
 
+
+def login_checker(func):
+	@wraps(func)
+	def func_wrap(*args, **kwargs):
+		if logged_in():
+			return func(*args, **kwargs)
+		else:
+			return redirect(url_for('admin_login'))
+	return func_wrap
