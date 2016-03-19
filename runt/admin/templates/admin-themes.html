@@ -1,0 +1,17 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	<ul>
+		{% for t in themes %}
+			<li>{{ t }} 
+				{%- if t != current %} - 
+					<form id="theme_form" style="display:inline;" method="POST" action="">
+						<input type="hidden" name="theme" value="{{ t }}">
+						<a href="#" onclick="document.getElementById('theme_form').submit(); return false;">Make Theme</a>
+					</form>
+				{%- else %} - Current
+				{%- endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

@@ -4,12 +4,12 @@ from ..models.users_model import Users
 from flask import render_template, request, redirect
 
 #@login_checker
-def admin_page():
+def index():
 	return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
 	return render_template('admin-page.html', pageheader="Users", return_list=return_list)
 
 #@login_checker
-def admin_add():
+def add():
 
 	err_return = {}
 	values = {}
@@ -57,7 +57,7 @@ def admin_add():
 	return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
 
 #@login_checker
-def admin_delete(uname):
+def delete(uname):
 	"""
 	Need to add something to prevent super admin from being deleted
 	"""

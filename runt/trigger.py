@@ -5,7 +5,7 @@ Builds the basics for Runt
 """
 import os
 import jinja2
-import pprint
+from pprint import *
 from peewee import *
 from datetime import timedelta
 from functools import wraps
@@ -17,7 +17,7 @@ from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
 from .models.base_model import BaseModel
 from .models.settings_model import Settings
-from .controllers import users
+from .controllers import users, admin, settings
 
 trigger = Flask(__name__)
 trigger.secret_key = os.urandom(24)
@@ -35,19 +35,6 @@ theme_loader = jinja2.ChoiceLoader([
 trigger.jinja_loader = theme_loader
 
 """
-Check if user is logged in using @login_checker decorator
-"""
-"""
-def login_checker(func):
-	@wraps(func)
-	def func_wrap(*args, **kwargs):
-		if logged_in():
-			return func(*args, **kwargs)
-		else:
-			return redirect(url_for('admin_login'))
-	return func_wrap
-"""
-"""
 Set up static admin css folder
 """
 @trigger.route('/admin/static/<path:filename>', strict_slashes=False)
@@ -55,90 +42,50 @@ def admin_static(filename):
 	runt_root = os.path.dirname(os.path.realpath(__file__))
 	return send_from_directory(runt_root + '/admin/templates/', filename)
 
-
+"""
+General Admin Views
+"""
 @trigger.route('/admin', strict_slashes=False)
-def admin():
-	if not logged_in():
-		return redirect(url_for('admin_login'))
-	return render_template('admin-main.html')
-	
+def admin_index():
+	return admin.index()
 
 @trigger.route('/admin/login', methods=['GET', 'POST'], strict_slashes=False)
 def admin_login():
-
-	err_return = None
-	if request.method == 'POST':
-		if request.form['uname']:
-			if check_username(request.form['uname']):
-				if auth(username=request.form['uname'], password=request.form['password']):
-					return redirect(url_for('admin'))
-				
-				err_return = "That username and password combination "
-			else:
-				err_return = "Username does not exist"
-		else:
-			err_return = "Username field is required"
-
-
-	return render_template('admin-login.html', error=err_return)
-
-@trigger.route('/admin/users', strict_slashes=False)
-def admin_users_page():
-	return users.admin_page()
-
-
-@trigger.route("/admin/add/user", methods=['GET', 'POST'], strict_slashes=False)
-def admin_user_add():
-	return users.admin_add()
-
-@trigger.route("/admin/delete/user/<uname>", methods=['GET', 'POST'], strict_slashes=False)
-def admin_user_delete(uname):
-	return users.admin_delete(uname)
-
-	
+	return admin.login()
 
 @trigger.route('/install', methods=['GET', 'POST'], strict_slashes=False)
 def install_runt():
-	if not check_install:
-		return "You have already installed Runt CMS"
+	return admin.install()
 
-	err_return = {}
-	values = {}
-	if request.method == 'POST':
-
-		"""
-		Rework so things like username must begin 
-		with a letter, password must be x long etc.
-		"""
-		if not request.form['uname']:
-			err_return['err_uname'] = "Username field is required"
-		else:
-			values['uname'] = request.form['uname']
-
-		if not request.form['email']:
-			err_return['err_email'] = "Email field is required"
-		else:
-			values['email'] = request.form['email']
-
-		if not request.form['password']:
-			err_return['err_password'] = "Password field is required"
-
-		if not request.form['repeat-password']:
-			err_return['err_password'] = "Both password fields are required"
-		else:
-			if request.form['password'] != request.form['repeat-password']:
-				err_return['err_password'] = "Passwords must match"
-
-		if not err_return:
-			install(username=request.form['uname'], email=request.form['email'], password=request.form['password'])
-			return "<h1>Installed!</h1>"
-
-	return render_template('admin-install.html', error=err_return, values=values)
 """
-started theme support
+Users
+"""
+@trigger.route('/admin/users', strict_slashes=False)
+def admin_users_page():
+	return users.index()
+
+@trigger.route("/admin/users/add/", methods=['GET', 'POST'], strict_slashes=False)
+def admin_users_add():
+	return users.add()
+
+@trigger.route("/admin/users/delete/<uname>", methods=['GET', 'POST'], strict_slashes=False)
+def admin_users_delete(uname):
+	return users.delete(uname)
+
+"""
+Settings
+"""
+@trigger.route("/admin/theme", methods=['GET', 'POST'], strict_slashes=False)
+def admin_theme():
+	return settings.themes()
+
+"""
+Homepage
+"""
 @trigger.route('/')
 def index():
-	theme = Settings.select()
-	template_name = 
-	return render_template(template_name)"""
+	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
+	template_name = theme + '/placeholder.html'
+	return render_template(template_name)
+
 	
