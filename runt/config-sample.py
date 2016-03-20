@@ -1,3 +1,7 @@
+import os
+
+RUNT_ROOT = os.path.abspath("")
+
 DB = {
 	"MYSQL_DB_HOST" : "localhost",
 	"MYSQL_DB_NAME" : "Your Database Name",

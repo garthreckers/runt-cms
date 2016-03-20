@@ -1,17 +1,31 @@
 {% extends "admin-main.html" %}
 
 {% block inner_content %}
-	<ul>
-		{% for t in themes %}
-			<li>{{ t }} 
-				{%- if t != current %} - 
+	<div class="row">
+		{% for theme, details in themes.items() %}
+			<div class="col-xs-4">
+				<p><strong>
+				{%- if details['name'] %}
+					{{ details['name'] }}
+				{% else %}
+					{{ theme }}
+				{% endif -%}
+				</strong>
+
+				{% if details['author'] %}
+					<br />by: {{ details['author'] }}
+				{% endif %}
+				</p>
+
+				{%- if theme != current -%}
 					<form id="theme_form" style="display:inline;" method="POST" action="">
-						<input type="hidden" name="theme" value="{{ t }}">
+						<input type="hidden" name="theme" value="{{ theme }}">
 						<a href="#" onclick="document.getElementById('theme_form').submit(); return false;">Make Theme</a>
 					</form>
-				{%- else %} - Current
+				{%- else -%}
+					Current
 				{%- endif %}
-			</li>
+			</div>
 		{% endfor %}
-	</ul>
+	</div>
 {% endblock %}

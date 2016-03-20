@@ -85,7 +85,5 @@ Homepage
 @trigger.route('/')
 def index():
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	template_name = theme + '/placeholder.html'
+	template_name = theme + '/index.html'
 	return render_template(template_name)
-
-	
