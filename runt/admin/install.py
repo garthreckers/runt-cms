@@ -1,6 +1,7 @@
 from ..models.base_model import mysql_db # Update later 
 from ..models.settings_model import Settings
 from ..models.users_model import Users
+from ..models.page_model import Page
 
 def check_install():
 	if Settings.table_exists() or Users.table_exists():
@@ -8,10 +9,12 @@ def check_install():
 
 	return True
 
-def install(username, email, password):
+def install_runt(username, email, password):
 
 	mysql_db.connect()
-	mysql_db.create_tables([Settings, Users])
+	mysql_db.create_tables([Settings, Users, Page])
+
+	Settings.create(field='theme', value='default')
 
 	u = Users()
 	hash_pass = u.hash_password(password)

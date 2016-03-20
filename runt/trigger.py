@@ -12,7 +12,7 @@ from functools import wraps
 from . import config
 from flask import Flask, render_template, request,\
 	send_from_directory, redirect, url_for
-from .admin.install import install, check_install
+from .admin.install import check_install
 from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
 from .models.base_model import BaseModel

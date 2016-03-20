@@ -1,5 +1,6 @@
 from ..admin.auth import login_checker
-from flask import render_template
+from ..admin.install import check_install, install_runt
+from flask import render_template, request
 
 #@login_checker
 def index():
@@ -54,7 +55,7 @@ def install():
 				err_return['err_password'] = "Passwords must match"
 
 		if not err_return:
-			install(username=request.form['uname'], email=request.form['email'], password=request.form['password'])
+			install_runt(username=request.form['uname'], email=request.form['email'], password=request.form['password'])
 			return "<h1>Installed!</h1>"
 
 	return render_template('admin-install.html', error=err_return, values=values)
