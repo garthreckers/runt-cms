@@ -2,10 +2,25 @@
 <html>
 <head>
 <title>Default Homepage</title>
+<link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
 
 <h1>Option 2 Homepage</h1>
+List of pages
+<ul>
+	{% for p in content.page %}
+		<li>{{ p.title }}</li>
+	{% endfor %}
+
+</ul>
+List of blogs
+<ul>
+	{% for b in content.blog %}
+		<li>{{ b.title }}</li>
+	{% endfor %}
+
+</ul>
 
 </body>
 </html>

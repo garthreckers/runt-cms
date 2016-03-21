@@ -1,0 +1,10 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	<a href="/admin/pages/add">Add page</a>
+	<ul>
+		{% for p in pages %}
+			<li>{{ p.id }} - {{ p.title }}<!-- - <a href="/admin/pages/delete/">Delete</a>--></li>
+		{% endfor %}
+	</ul>
+{% endblock %}
