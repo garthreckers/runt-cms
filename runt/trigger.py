@@ -21,7 +21,7 @@ from .models.settings_model import Settings
 from .models.page_model import Page
 from .controllers import users, admin, settings
 
-trigger = Flask(__name__)
+trigger = Flask(__name__, static_url_path='/runt-static-override')
 trigger.secret_key = os.urandom(24)
 trigger.permanent_session_lifetime = timedelta(hours=3)
 
@@ -39,10 +39,12 @@ trigger.jinja_loader = theme_loader
 """
 Set up static admin css folder
 """
+
 @trigger.route('/admin/static/<path:filename>', strict_slashes=False)
 def admin_static(filename):
 	runt_root = os.path.dirname(os.path.realpath(__file__))
 	return send_from_directory(runt_root + '/admin/templates/', filename)
+
 
 """
 General Admin Views
@@ -95,20 +97,10 @@ def admin_pages():
 Theme Stuff
 """
 
-"""
-Need to figure out how to get this to work
-@trigger.route('/static/<path:path>')
-def theme_w_path_static(path):
+@trigger.route('/static/<path:filename>')
+def theme_path_static(filename):
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	static_path = RUNT_ROOT + '/themes/' + theme + '/static/'
-	print(static_path)
-	return send_from_directory(static_path, path)"""
-
-@trigger.route('/static/<filename>', strict_slashes=False)
-def theme_static(filename):
-	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	runt_root = os.path.dirname(os.path.realpath(__file__))
-	static_path = runt_root + '/themes/' + theme + '/static/'
+	static_path = config.RUNT_ROOT + '/themes/' + theme + '/static'
 	print(static_path)
 	return send_from_directory(static_path, filename)
 
