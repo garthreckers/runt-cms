@@ -1,18 +1,27 @@
+"""
+Simple functions for installation
+"""
 from ..models.base_model import mysql_db # Update later 
 from ..models.settings_model import Settings
 from ..models.users_model import Users
-from ..models.page_model import Page
+from ..models.pages_model import Pages
 
 def check_install():
+	"""
+	Simple function to check if Runt CMS is installed
+	"""
 	if Settings.table_exists() or Users.table_exists():
 		return False
 
 	return True
 
 def install_runt(username, email, password):
-
+	"""
+	This is the installation function to create the first
+	user and install the tables
+	"""
 	mysql_db.connect()
-	mysql_db.create_tables([Settings, Users, Page])
+	mysql_db.create_tables([Settings, Users, Pages])
 
 	Settings.create(field='theme', value='default')
 

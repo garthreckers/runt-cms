@@ -7,6 +7,11 @@ def index():
 	return render_template('admin-main.html')
 
 def login():
+	"""
+	Returns the login form template if GET. Does some 
+	validation if POST and returns form agian if doesnt 
+	validate and redirects to main admin page if it does
+	"""
 	err_return = None
 	if request.method == 'POST':
 		if request.form['uname']:
@@ -24,6 +29,10 @@ def login():
 	return render_template('admin-login.html', error=err_return)
 
 def install():
+	"""
+	Returns installation page which sets up 
+	the first user. 
+	"""
 	if not check_install:
 		return "You have already installed Runt CMS"
 

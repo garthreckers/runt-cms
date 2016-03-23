@@ -5,12 +5,17 @@ from flask import render_template, request, redirect
 
 #@login_checker
 def index():
+	"""
+	This returns a list of all users
+	"""
 	return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
 	return render_template('admin-page.html', pageheader="Users", return_list=return_list)
 
 #@login_checker
 def add():
-
+	"""
+	This lets you add a new user
+	"""
 	err_return = {}
 	values = {}
 
@@ -58,6 +63,11 @@ def add():
 
 #@login_checker
 def delete(uname):
+	"""
+	This asks for confirmation before 
+	deleting the user
+	"""
+
 	"""
 	Need to add something to prevent super admin from being deleted
 	"""

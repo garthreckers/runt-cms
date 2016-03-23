@@ -1,4 +1,9 @@
 {
-	"1": "page",
-	"2": "blog"
+	"objects": {
+		"page": "*",
+		"blog": {
+			"1": "title",
+			"2": "slug"
+		} 
+	}
 }

@@ -6,16 +6,15 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ul class="list-inline">
-					<li><a href="/admin">Admin Home</a></li>
-					<li><a href="/admin/page">Page</a></li>
-					<li><a href="/admin/theme">Theme</a></li>
-					<li><a href="/admin/users">Users</a></li>
+					{% for m, url in admin_menu.items() %}
+						<li><a href="{{ url }}">{{ m }}</a></li>
+					{% endfor %}
 				</ul>
 			</div>
 		</div>
 	</div>
 </nav>
-<div class="container-fluid">
+<div class="container-fluid main-content">
 	<div class="row">
 		<div class="col-xs-12">
 			

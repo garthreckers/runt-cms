@@ -11,5 +11,9 @@ class Users(BaseModel):
     level = CharField(max_length=40)
 
     def hash_password(self, password):
+    	"""
+    	This function is a convient wrapper
+    	to hash new users passwords
+    	"""
     	return generate_password_hash(password)
 

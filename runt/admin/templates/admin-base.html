@@ -10,5 +10,23 @@
 
 {% block content %}{% endblock %}
 
+<script type="text/javascript">
+function stringToSlug(s)
+{
+	return s
+		.toString()
+		.toLowerCase()
+		.replace(/[^\w ]+/g,'')
+		.replace(/ +/g,'-');
+}
+
+var formTitle = document.getElementById('add-page-title');
+var formSlug = document.getElementById('add-page-slug');
+
+formTitle.onblur = function() {
+	formSlug.value = stringToSlug(formTitle.value);	
+}
+
+</script>
 </body>
 </html>

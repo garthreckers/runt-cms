@@ -1,7 +1,7 @@
 from .base_model import BaseModel
 from peewee import *
 
-class Page(BaseModel):
+class Pages(BaseModel):
     title = CharField(max_length=255)
     slug = CharField(unique=True)
     content = TextField(null=True)

@@ -1,0 +1,10 @@
+{
+	"blog": {
+		"slug": "blog",
+		"display": "Blogs"
+	},
+	"event": {
+		"slug": "events",
+		"display": "Events"
+	}
+}

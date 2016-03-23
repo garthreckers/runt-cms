@@ -1,5 +1,7 @@
 {
-	"author": "Garth Reckers",
-	"copyright": "© Garth Reckers 2016",
-	"name": "Defualt Runt Theme"
+	"author": {
+		"author": "Garth Reckers",
+		"copyright": "© Garth Reckers 2016",
+		"name": "Defualt Runt Theme"
+	}
 }

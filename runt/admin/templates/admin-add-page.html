@@ -1,0 +1,15 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+	<h1>Add New {{ object_type | title }}</h1>
+	<form method="POST" action="" id="admin-add-page">
+		{% if error %}{{ error }}{% endif %}
+
+		Title: <input type="text" name="title" id="add-page-title"><br />
+		Slug: <input type="text" name="slug" id="add-page-slug"><br />
+		Content: <textarea name="content" rows="10" cols="40"></textarea><br />
+		<input type="submit">
+
+	</form>
+
+{% endblock %}

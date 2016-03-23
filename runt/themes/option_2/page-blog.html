@@ -4,9 +4,10 @@
 <title>Default Homepage</title>
 </head>
 <body>
-
-<h1>{{ content.title }}</h1>
+<small>page-blog.html file</small>
+<h1>{{ content.object_type | title }}: {{ content.title }}</h1>
 <p>{{ content.content | safe }}</p>
+
 
 </body>
 </html>

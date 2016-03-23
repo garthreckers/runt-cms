@@ -1,10 +1,13 @@
 @import "bootstrap/bootstrap";
 
-$dark: #333333;
-$light: #dddddd;
+$dark: #3C4C66;
+$light: #E7E7E7;
+$lighter: #F7F7F0;
+$highlight: #F38630;
 
 body {
 	background: $light;
+	color: $dark;
 }
 
 .admin-nav {
@@ -26,5 +29,12 @@ body {
 				}
 			}
 		}
+	}
+}
+
+.main-content {
+	text-shadow: 1px 1px $lighter;
+	a {
+		color: $highlight;
 	}
 }
