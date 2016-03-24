@@ -6,7 +6,7 @@ import os
 import jinja2
 import json
 import config
-from extensions import *
+from .admin.extensions import load_template
 from peewee import *
 from collections import OrderedDict
 from datetime import timedelta
@@ -200,8 +200,6 @@ def theme_path_static(filename):
 
 @trigger.route('/')
 def index():
-	json_output.json_output.j_out()
-
 	content = {}
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
 	template_json = config.ROOT_DIR + '/themes/' + theme + '/index.json'
@@ -226,12 +224,15 @@ def index():
 								.select(*[getattr(Pages, a) for a in _objs])
 								.where(Pages.object_type == k)
 								.order_by(-Pages.id))
-
-				content[k] = _p_obj
+				
+				_p_content = []
+				for _p_dict in _p_obj.dicts():
+					_p_content.append(_p_dict)
+				content[k] = _p_content
 
 	template_name = theme + '/index.html'
 
-	return render_template(template_name, content=content)
+	return load_template(template_name, content=content)
 
 @trigger.route('/<slug>', strict_slashes=False)
 def pages(slug):

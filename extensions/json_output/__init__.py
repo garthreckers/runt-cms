@@ -1,1 +1,1 @@
-__all__ = ['json_output']
+from .json_output import Extension
