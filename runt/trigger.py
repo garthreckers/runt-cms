@@ -5,11 +5,12 @@ and other basics for Runt CMS
 import os
 import jinja2
 import json
+import config
+from extensions import *
 from peewee import *
 from collections import OrderedDict
 from datetime import timedelta
 from functools import wraps
-from . import config
 from flask import Flask, render_template, request,\
 	send_from_directory, redirect, url_for
 from .admin.install import check_install
@@ -41,7 +42,7 @@ Change default directors for Jinja2 Templates
 theme_loader = jinja2.ChoiceLoader([
 		trigger.jinja_loader,	
 		jinja2.FileSystemLoader([
-				'runt/themes',
+				'themes',
 				'runt/admin/templates'
 			])
 	])
@@ -59,7 +60,7 @@ def admin_menu():
 	menu["Pages"] = "/admin/pages?object-type=page"
 
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	objects_json = config.RUNT_ROOT + '/themes/' + theme + '/objects.json'
+	objects_json = config.ROOT_DIR + '/themes/' + theme + '/objects.json'
 	
 	if os.path.exists(objects_json):	
 		with open(objects_json, "r") as oj:
@@ -194,14 +195,16 @@ Theme Stuff
 @trigger.route('/static/<path:filename>')
 def theme_path_static(filename):
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	static_path = config.RUNT_ROOT + '/themes/' + theme + '/static'
+	static_path = config.ROOT_DIR + '/themes/' + theme + '/static'
 	return send_from_directory(static_path, filename)
 
 @trigger.route('/')
 def index():
+	json_output.json_output.j_out()
+
 	content = {}
 	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	template_json = config.RUNT_ROOT + '/themes/' + theme + '/index.json'
+	template_json = config.ROOT_DIR + '/themes/' + theme + '/index.json'
 
 	if os.path.exists(template_json):
 		with open(template_json, "r") as tj:
@@ -248,7 +251,7 @@ def object_pages(obj, slug):
 
 	for tn in template_set:
 
-		if os.path.exists(config.RUNT_ROOT + '/themes/' + theme + '/' + tn):
+		if os.path.exists(config.ROOT_DIR + '/themes/' + theme + '/' + tn):
 
 			template_name = theme + '/' + tn
 			return render_template(template_name, content=content)

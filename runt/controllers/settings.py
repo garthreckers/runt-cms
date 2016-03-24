@@ -3,7 +3,7 @@ import json
 from ..models.settings_model import Settings
 from ..admin.auth import login_checker
 from flask import render_template, request
-from ..config import RUNT_ROOT
+from config import ROOT_DIR
 
 #@login_check
 def index():
@@ -15,12 +15,12 @@ def themes():
 	/themes/ dir for folders and then grabs stuff like
 	author, name, copyright, etc. from theme.json. 
 	"""
-	theme_folders = os.listdir(RUNT_ROOT + '/themes/')
+	theme_folders = os.listdir(ROOT_DIR + '/themes/')
 
 	themes = {}
 	for t in theme_folders:
 		if not t.startswith("."):
-			_t_path = RUNT_ROOT + '/themes/' + t + '/theme.json'
+			_t_path = ROOT_DIR + '/themes/' + t + '/theme.json'
 			with open(_t_path, 'r') as j:
 				theme_json = json.loads(j.read())
 				themes[t] = theme_json['author']
