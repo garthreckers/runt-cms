@@ -4,7 +4,7 @@ class Extension():
 	def __init__(self):
 		pass
 
-	def before_template_load(self, **kwargs):
+	def before_template_load(self, *args, **kwargs):
 		if kwargs:
 			if request.args.get('output') == 'json':
 				return jsonify(kwargs)
