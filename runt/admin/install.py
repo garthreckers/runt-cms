@@ -5,6 +5,7 @@ from ..models.base_model import mysql_db # Update later
 from ..models.settings_model import Settings
 from ..models.users_model import Users
 from ..models.pages_model import Pages
+from ..models.extensions_model import Extensions
 
 def check_install():
 	"""
@@ -21,7 +22,7 @@ def install_runt(username, email, password):
 	user and install the tables
 	"""
 	mysql_db.connect()
-	mysql_db.create_tables([Settings, Users, Pages])
+	mysql_db.create_tables([Settings, Users, Pages, Extensions])
 
 	Settings.create(field='theme', value='default')
 

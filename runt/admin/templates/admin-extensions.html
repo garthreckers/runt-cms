@@ -1,0 +1,26 @@
+{% extends "admin-main.html" %}
+
+{% block inner_content %}
+
+	<ul>
+		{% set count = 1 %}
+		{% for name, active in extensions.items() %}
+			<li>{{ name }} - {% if active -%}
+										<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
+											<input type="hidden" name="activation" value="deactivate">
+											<input type="hidden" name="ext_name" value="{{ name }}">
+											<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Deactivate</a>
+										</form>
+									{%- else -%}
+										<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
+											<input type="hidden" name="activation" value="activate">
+											<input type="hidden" name="ext_name" value="{{ name }}">
+											<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Activate</a>
+										</form>
+										
+									{%- endif %}</li>
+			{% set count = count + 1 %}
+		{% endfor %}
+	</ul>
+
+{% endblock %}

@@ -2,6 +2,7 @@
 
 {% block inner_content %}
 	<div class="row">
+		{% set count = 1 %}
 		{% for theme, details in themes.items() %}
 			<div class="col-xs-4">
 				<p><strong>
@@ -18,14 +19,15 @@
 				</p>
 
 				{%- if theme != current -%}
-					<form id="theme_form" style="display:inline;" method="POST" action="">
+					<form id="theme_form_{{ count }}" style="display:inline;" method="POST" action="">
 						<input type="hidden" name="theme" value="{{ theme }}">
-						<a href="#" onclick="document.getElementById('theme_form').submit(); return false;">Make Theme</a>
+						<a href="#" onclick="document.getElementById('theme_form_{{ count }}').submit(); return false;">Make Theme</a>
 					</form>
 				{%- else -%}
 					Current
 				{%- endif %}
 			</div>
+			{% set count = count + 1 %}
 		{% endfor %}
 	</div>
 {% endblock %}

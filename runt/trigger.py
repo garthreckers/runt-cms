@@ -6,7 +6,8 @@ import os
 import jinja2
 import json
 import config
-from .admin.extensions import load_template
+from extensions import exts
+from .extensions import load_template
 from peewee import *
 from collections import OrderedDict
 from datetime import timedelta
@@ -18,6 +19,7 @@ from .admin.auth import auth, check_username, logged_in
 from .models.users_model import Users
 from .models.base_model import BaseModel
 from .models.settings_model import Settings
+from .models.extensions_model import Extensions
 from .models.pages_model import Pages
 from .controllers import users, admin, settings
 
@@ -124,6 +126,33 @@ Settings
 @trigger.route("/admin/theme", methods=['GET', 'POST'], strict_slashes=False)
 def admin_theme():
 	return settings.themes()
+
+"""
+Extensions
+"""
+@trigger.route("/admin/extensions", methods=['GET', 'POST'], strict_slashes=False)
+def admin_extensions():
+	if request.method == 'POST':
+		name = request.form['ext_name']
+		activation = True if request.form['activation'] == 'activate' else False
+
+		select_ext = Extensions.select().where(Extensions.name == name)
+
+		if select_ext.exists():
+			print('**********************' + name)
+			Extensions.update(active=activation).where(Extensions.name == name).execute()
+		else:
+			Extensions.create(name=name, active=activation)
+		
+
+	extensions = {}
+	for e in exts:
+		if Extensions.select().where((Extensions.name == e) & (Extensions.active == True)):
+			extensions.update({e: True})
+		else:
+			extensions.update({e: False})
+
+	return render_template("admin-extensions.html", pageheader="Extensions", extensions=extensions)
 
 """
 Pages
