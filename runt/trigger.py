@@ -3,10 +3,11 @@ Builds the routes, theme loader,
 and other basics for Runt CMS
 """
 import os
+import compileall
 import jinja2
 import json
+import sys
 import config
-from extensions import exts
 from .extensions import load_template
 from peewee import *
 from collections import OrderedDict
@@ -132,6 +133,7 @@ Extensions
 """
 @trigger.route("/admin/extensions", methods=['GET', 'POST'], strict_slashes=False)
 def admin_extensions():
+
 	if request.method == 'POST':
 		name = request.form['ext_name']
 		activation = True if request.form['activation'] == 'activate' else False
@@ -139,20 +141,40 @@ def admin_extensions():
 		select_ext = Extensions.select().where(Extensions.name == name)
 
 		if select_ext.exists():
-			print('**********************' + name)
 			Extensions.update(active=activation).where(Extensions.name == name).execute()
 		else:
 			Extensions.create(name=name, active=activation)
+
+		return redirect(url_for('admin_install_extensions'))
+
 		
+	exts = Extensions.select()
 
-	extensions = {}
+	exts_dict = {}
 	for e in exts:
-		if Extensions.select().where((Extensions.name == e) & (Extensions.active == True)):
-			extensions.update({e: True})
+		if e.active == True:
+			exts_dict.update({e.name: True})
 		else:
-			extensions.update({e: False})
+			exts_dict.update({e.name: False})
 
-	return render_template("admin-extensions.html", pageheader="Extensions", extensions=extensions)
+	return render_template("admin-extensions.html", pageheader="Extensions", extensions=exts_dict)
+
+"""
+Funky process that can be smoothed
+
+Basically when admin/extensions/install is hit, the iframe will fail but will successfully
+restart the python server. 
+"""
+@trigger.route("/admin/extensions/install")
+def admin_install_extensions():
+	return '<h1>App has been refreshed</h1>\
+	        <iframe src="/admin/restart_app" onload="window.close();"></iframe>'
+
+@trigger.route("/admin/restart_app")
+def admin_restart_app():
+	python = sys.executable
+	os.execl(python, python, * sys.argv)
+
 
 """
 Pages
