@@ -1,7 +1,7 @@
 {% extends "admin-main.html" %}
 
 {% block inner_content %}
-
+	<a href="/admin/extensions/install">Refresh List of Plugins</a>
 	<ul>
 		{% set count = 1 %}
 		{% for name, active in extensions.items() %}
@@ -22,7 +22,6 @@
 			{% set count = count + 1 %}
 		{% endfor %}
 	</ul>
-	<iframe src="/admin/restart_app" class="hidden"></iframe>
 
 
 {% endblock %}

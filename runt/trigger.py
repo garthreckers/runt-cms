@@ -16,7 +16,7 @@ from functools import wraps
 from flask import Flask, render_template, request,\
 	send_from_directory, redirect, url_for
 from .admin.install import check_install
-from .admin.auth import auth, check_username, logged_in
+from .admin.auth import auth, check_username, logged_in, login_checker
 from .models.users_model import Users
 from .models.base_model import BaseModel
 from .models.settings_model import Settings
@@ -167,8 +167,7 @@ restart the python server.
 """
 @trigger.route("/admin/extensions/install")
 def admin_install_extensions():
-	return '<h1>App has been refreshed</h1>\
-	        <iframe src="/admin/restart_app" onload="window.close();"></iframe>'
+	return render_template("admin-extensions-install.html", pageheader="Processing...")
 
 @trigger.route("/admin/restart_app")
 def admin_restart_app():
