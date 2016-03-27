@@ -8,7 +8,7 @@ import jinja2
 import json
 import sys
 import config
-from .extensions import load_template
+from .extensions import load_template, inject_footer, inject_header
 from peewee import *
 from collections import OrderedDict
 from datetime import timedelta
@@ -77,6 +77,23 @@ def admin_menu():
 	menu["Users"] = "/admin/users"
 
 	return dict(admin_menu=menu)
+
+"""extensions"""
+
+@trigger.context_processor
+def ext_inject_footer():
+	return inject_footer()
+
+@trigger.context_processor
+def ext_inject_header():
+	return inject_header()
+
+@trigger.route('/<ext>/static/<path:filename>')
+def ext_static_files(ext, filename):
+	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
+	static_path = config.ROOT_DIR + '/extensions/' + ext + '/static'
+	return send_from_directory(static_path, filename)
+
 
 """
 Set up static admin css folder
@@ -148,20 +165,28 @@ def admin_extensions():
 		return redirect(url_for('admin_install_extensions'))
 
 		
-	exts = Extensions.select()
+	exts = Extensions.select().order_by(+Extensions.name)
+
 
 	exts_dict = {}
 	for e in exts:
+		_exts_temp_dict = {}
+		_e_path = config.ROOT_DIR + "/extensions/" + e.name + "/extension.json"
+		if os.path.exists(_e_path):
+			with open(_e_path, "r") as f:
+				_exts_json = json.loads(f.read())['extension_details']
+				_exts_temp_dict.update(_exts_json)
+
 		if e.active == True:
-			exts_dict.update({e.name: True})
+			_exts_temp_dict.update({"active": True})
+			exts_dict.update({e.name: _exts_temp_dict})
 		else:
-			exts_dict.update({e.name: False})
+			_exts_temp_dict.update({"active": False})
+			exts_dict.update({e.name: _exts_temp_dict})
 
 	return render_template("admin-extensions.html", pageheader="Extensions", extensions=exts_dict)
 
 """
-Funky process that can be smoothed
-
 Basically when admin/extensions/install is hit, the iframe will fail but will successfully
 restart the python server. 
 """

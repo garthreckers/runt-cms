@@ -12,3 +12,16 @@ class Extension(BaseExtension):
 		
 		return add_on
 			
+	def inject_footer(self, injection):
+		add_on = '''
+
+		'''
+		inject = injection + add_on
+		return inject
+
+	def inject_header(self, injection):
+		add_on = '''
+			<link rel="stylesheet" type="text/css" href="/template_inject/static/styles.css">
+		'''
+		inject = injection + add_on
+		return inject

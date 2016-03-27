@@ -7,6 +7,7 @@ import sys
 from runt.models.extensions_model import Extensions as Ext_Model
 from flask import render_template
 
+
 def load_template(template, **kwargs):
 	"""
 	This needs to be fixed so that the call to the class and method
@@ -30,4 +31,33 @@ def load_template(template, **kwargs):
 		if e_before:
 			return e_before
 	
-	return render_template(template, **(return_kwargs)) 
+	return render_template(template, **(return_kwargs))
+
+def inject_footer():
+	
+	inject = ""
+
+	active_e = Ext_Model.select().where(Ext_Model.active == True)
+
+	for e in active_e:
+		e_return = eval(e.name).Extension().inject_footer(inject)
+		inject = inject + e_return
+		
+	return dict(runt_footer=inject)
+
+def inject_header():
+	
+	inject = ""
+
+	active_e = Ext_Model.select().where(Ext_Model.active == True)
+
+	for e in active_e:
+		e_return = eval(e.name).Extension().inject_header(inject)
+		inject = inject + e_return
+		
+	return dict(runt_header=inject)
+
+
+
+
+

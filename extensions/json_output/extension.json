@@ -1,0 +1,8 @@
+{
+	"extension_details": {
+		"name": "JSON Output",
+		"description": "When the GET parameter \"output\" is set to \"json\", all theme details will be displayed as JSON",
+		"author": "Garth Reckers",
+		"Copyright": "© Garth Reckers 2016"
+	}
+}

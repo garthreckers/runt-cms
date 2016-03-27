@@ -27,6 +27,10 @@ def install_ext():
 			__import__(import_e)
 			if e not in exts_names:
 				Extensions().create(name=e)
+	
+	for e in exts_names:
+		if e not in ext_files:
+			Extensions().delete().where(Extensions.name == e).execute()
 
 install_ext()
 

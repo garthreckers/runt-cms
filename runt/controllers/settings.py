@@ -23,7 +23,7 @@ def themes():
 			_t_path = ROOT_DIR + '/themes/' + t + '/theme.json'
 			with open(_t_path, 'r') as j:
 				theme_json = json.loads(j.read())
-				themes[t] = theme_json['author']
+				themes[t] = theme_json['theme_details']
 
 	get_theme = Settings.select().where(Settings.field == 'theme').get()
 	current_theme = get_theme.value

@@ -3,7 +3,9 @@
 <head>
 <title>Default Homepage</title>
 <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
-<link rel="icon" href="/static/favicon.ico">
+
+{{ runt_header | safe }}
+
 </head>
 <body>
 
@@ -24,6 +26,8 @@ List of blogs
 	{% endfor %}
 
 </ul>
+
+{{ runt_footer | safe }}
 
 </body>
 </html>

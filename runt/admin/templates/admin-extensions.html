@@ -4,8 +4,8 @@
 	<a href="/admin/extensions/install">Refresh List of Plugins</a>
 	<ul>
 		{% set count = 1 %}
-		{% for name, active in extensions.items() %}
-			<li>{{ name }} - {% if active -%}
+		{% for name, e in extensions.items() %}
+			<li>{{ e.name or name }} - {{ e.author }} - {% if e.active -%}
 										<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
 											<input type="hidden" name="activation" value="deactivate">
 											<input type="hidden" name="ext_name" value="{{ name }}">
