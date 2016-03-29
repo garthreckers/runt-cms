@@ -1,7 +1,17 @@
 {
 	"blog": {
 		"slug": "blog",
-		"display": "Blogs"
+		"display": "Blogs",
+		"fields": {
+			"featured_photo": {
+				"type": "photo",
+				"name": "Featured Photo"
+			},
+			"blog_text_field": {
+				"type": "text",
+				"name": "Blog Text Field"
+			} 
+		}
 	},
 	"event": {
 		"slug": "events",

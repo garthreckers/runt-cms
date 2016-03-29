@@ -17,12 +17,8 @@ from flask import Flask, render_template, request,\
 	send_from_directory, redirect, url_for
 from .admin.install import check_install
 from .admin.auth import auth, check_username, logged_in, login_checker
-from .models.users_model import Users
-from .models.base_model import BaseModel
-from .models.settings_model import Settings
-from .models.extensions_model import Extensions
-from .models.pages_model import Pages
-from .controllers import users, admin, settings
+from .models import *
+from .controllers import users, admin, settings, theme, pages
 
 """ 
 Assign Flask and set static_url_path to
@@ -205,62 +201,15 @@ Pages
 """
 @trigger.route("/admin/pages", strict_slashes=False)
 def admin_pages():
-
-	object_type = request.args.get('object-type') or 'page'
-	pageheader = object_type.title() + ' Pages' if object_type != 'page' else 'Pages'
-
-	pages = Pages.select().where(Pages.object_type == object_type).order_by(+Pages.title)
-
-	return render_template("admin-all-pages.html", pages=pages, object_type=object_type, pageheader=pageheader)
+	return pages.all()
 
 @trigger.route("/admin/pages/add", methods=['GET', 'POST'], strict_slashes=False)
 def admin_add_pages():
-
-	object_type = request.args.get('object-type') or 'page'
-
-	err_return = {}
-	if request.method == 'POST':
-		if not request.form['title']:
-			err_return['title'] = "Title is required"
-		if not request.form['slug']:
-			err_return['slug'] = "Slug is required"
-		if not request.form['content']:
-			err_return['content'] = "Content is required"
-		if not err_return:
-			p = Pages(title=request.form['title'], slug=request.form['slug'], \
-				content=request.form['content'], object_type=object_type)
-			p.save()
-			return redirect(url_for('admin_edit_pages', id=p.id))
-	return render_template("admin-add-page.html", error=err_return, object_type=object_type)
+	return pages.add()
 
 @trigger.route("/admin/pages/edit/<id>", methods=['GET', 'POST'], strict_slashes=False)
 def admin_edit_pages(id):
-	object_type = request.args.get('object-type') or 'page'
-
-	err_return = {}
-	p = Pages.select().where(Pages.id == id)
-	if p.exists():
-		values = p.get()
-
-		if request.method == 'POST':
-			if not request.form['title']:
-				err_return['title'] = "Title is required"
-			if not request.form['slug']:
-				err_return['slug'] = "Slug is required"
-			if not request.form['content']:
-				err_return['content'] = "Content is required"
-			if not err_return:
-				p_update = Pages.update(title=request.form['title'], slug=request.form['slug'], \
-					content=request.form['content']).where(Pages.id == id).execute()
-				values = {}
-				values['title'] = request.form['title']
-				values['slug'] = request.form['slug']
-				values['content'] = request.form['content']
-				values['id'] = id
-
-		return render_template("admin-edit-page.html", values=values, error=err_return, object_type=object_type)
-
-	return '404 page'
+	return pages.edit(id)
 
 
 """
@@ -269,67 +218,16 @@ Theme Stuff
 
 @trigger.route('/static/<path:filename>')
 def theme_path_static(filename):
-	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	static_path = config.ROOT_DIR + '/themes/' + theme + '/static'
-	return send_from_directory(static_path, filename)
+	return theme.static(filename)
 
 @trigger.route('/')
-def index():
-	content = {}
-	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	template_json = config.ROOT_DIR + '/themes/' + theme + '/index.json'
-
-	if os.path.exists(template_json):
-		with open(template_json, "r") as tj:
-			_t_decode = json.loads(tj.read())
-			for k, v in _t_decode['objects'].items():
-				_p_obj = None
-				if v == "*":
-					_p_obj = (Pages
-								.select()
-								.where(Pages.object_type == k)
-								.order_by(-Pages.id))
-
-				if type(v) is dict:
-					_objs = []
-					for inner_k, inner_v in v.items():
-						_objs.append(inner_v)
-
-					_p_obj = (Pages
-								.select(*[getattr(Pages, a) for a in _objs])
-								.where(Pages.object_type == k)
-								.order_by(-Pages.id))
-				
-				_p_content = []
-				for _p_dict in _p_obj.dicts():
-					_p_content.append(_p_dict)
-				content[k] = _p_content
-
-	template_name = theme + '/index.html'
-
-	return load_template(template_name, content=content)
+def theme_index():
+	return theme.index()
 
 @trigger.route('/<slug>', strict_slashes=False)
-def pages(slug):
-	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	content = Pages.select().where(Pages.slug == slug, Pages.object_type == 'page').get()
-	template_name = theme + '/page.html'
-	return render_template(template_name, content=content)
+def theme_pages(slug):
+	return theme.pages(slug)
 
 @trigger.route('/<obj>/<slug>', strict_slashes=False)
-def object_pages(obj, slug):
-	if obj == "page":
-		return
-	theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-	content = Pages.select().where(Pages.slug == slug, Pages.object_type == obj).get()
-	
-	template_set = ['page-' + str(obj) + '.html', 'page.html']
-
-	for tn in template_set:
-
-		if os.path.exists(config.ROOT_DIR + '/themes/' + theme + '/' + tn):
-
-			template_name = theme + '/' + tn
-			return render_template(template_name, content=content)
-
-	return '404'
+def theme_object_pages(obj, slug):
+	return theme.object_pages(obj, slug)

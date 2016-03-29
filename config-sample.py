@@ -1,6 +1,8 @@
 import os
 
-RUNT_ROOT = os.path.abspath("")
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+RUNT_ROOT = ROOT_DIR + '/runt'
+RUNT_UPLOADS = ROOT_DIR + '/uploads/'
 
 DB = {
 	"MYSQL_DB_HOST" : "localhost",

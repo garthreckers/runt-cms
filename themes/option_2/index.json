@@ -1,9 +1,22 @@
 {
 	"objects": {
-		"page": "*",
+		"page": {
+			"fields": "*"
+		},
 		"blog": {
-			"1": "title",
-			"2": "slug"
-		} 
+			"fields": {
+				"1": "title",
+				"2": "slug"
+			},
+			"limit": "25",
+			"conditions": {
+				"category": "featured",
+				"daterange": {
+					"TODO": "LATER",
+					"lessthan": "02202011",
+					"greaterthan": "02201990"
+				}
+			}
+		}
 	}
 }

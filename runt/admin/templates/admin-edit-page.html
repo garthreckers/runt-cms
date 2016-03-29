@@ -3,12 +3,24 @@
 {% block inner_content %}
 	<h1>Edit {{ object_type | title }}</h1>
 	<a href="/{{ values.id }}" target="_blank">View</a><br />
-	<form method="POST" action="">
+	<form method="POST" action="" enctype="multipart/form-data" >
 		{% if error %}{{ error }}{% endif %}
 
 		Title: <input type="text" name="title" value="{{ values.title }}"><br />
 		Slug: <input type="text" name="slug" value="{{ values.slug }}"><br />
 		Content: <textarea name="content" rows="10" cols="40">{{ values.content }}</textarea><br />
+
+		{% for id, f in fields.items() -%}
+
+			{{ f.name or id }}: 
+
+			{%- if f.type == 'photo' %}
+				<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+			{% elif f.type == 'text' %}
+				<input type="text" name="field--text--{{ id }}" value="{{ f.value }}"><br />
+			{% endif %}
+
+		{% endfor %}
 
 		<input type="submit">
 

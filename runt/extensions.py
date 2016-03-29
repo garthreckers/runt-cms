@@ -14,7 +14,7 @@ def load_template(template, **kwargs):
 	are dynamic based on which extensions are active
 	"""	
 
-	""" loop through inject_variables' to add any variables """
+	""" loop through inject_variables to add any variables """
 	return_kwargs = kwargs
 
 	active_e = Ext_Model.select().where(Ext_Model.active == True)
