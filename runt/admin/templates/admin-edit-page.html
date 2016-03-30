@@ -15,7 +15,12 @@
 			{{ f.name or id }}: 
 
 			{%- if f.type == 'photo' %}
-				<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+				{% if f.value != '' %}
+					<img src="{{ f.value }}" width="100" />
+				{% else %}
+					<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+				{% endif %}
+
 			{% elif f.type == 'text' %}
 				<input type="text" name="field--text--{{ id }}" value="{{ f.value }}"><br />
 			{% endif %}

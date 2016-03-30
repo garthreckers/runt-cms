@@ -91,6 +91,12 @@ def ext_static_files(ext, filename):
 	return send_from_directory(static_path, filename)
 
 
+@trigger.route('/uploads/<path:filename>')
+def uploads_static_folder(filename):
+	static_path = config.ROOT_DIR + '/uploads/'
+	return send_from_directory(static_path, filename)
+
+
 """
 Set up static admin css folder
 """

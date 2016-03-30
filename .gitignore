@@ -4,4 +4,4 @@
 
 config.py
 
-uploads/*
+/uploads/*

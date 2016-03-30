@@ -1,4 +1,6 @@
 import config, os, json
+import datetime
+from PIL import Image, ImageOps
 from flask import render_template, request, redirect, url_for
 from runt.models import *
 from playhouse import shortcuts
@@ -43,6 +45,14 @@ def add():
 						f = Fields(page_id=p.id, field_id=field_id, field_value=v)
 						f.save()
 
+
+			n = datetime.date.today()
+			year_dir = str(n.year)
+			year_path = config.RUNT_UPLOADS + year_dir
+			month_dir = '/' + str(format(n.month, '02d'))
+			month_path = year_path + month_dir
+			relative_path = '/uploads/' + year_dir + month_dir + '/'
+
 			for name, file in request.files.items():
 				if name.startswith("field--"):
 					name_split = name.split("--")
@@ -50,12 +60,23 @@ def add():
 					field_id = name_split[2]
 					if field_type == 'photo':
 
-						if file: # and file.filename.endswith(('.jpg','.png')):
+						if file and file.filename.endswith(('.jpg','.png')):
+							
+							if not os.path.exists(year_path):
+								os.mkdir(year_path)
+
+							if not os.path.exists(month_path):
+								os.mkdir(month_path)
+
 							filename = secure_filename(file.filename)
-							file.save(os.path.join(config.RUNT_UPLOADS, filename))
-							print(os.path.join(config.RUNT_UPLOADS, filename))
+
+							file.save(os.path.join(month_path, filename))
+
+							_image_processing(month_path, filename)
+							
 					
-						f = Fields(page_id=p.id, field_id=field_id, field_value=filename)
+						f = Fields(page_id=p.id, field_id=field_id,\
+									field_value=relative_path + filename)
 						f.save()
 
 			return redirect(url_for('admin_edit_pages', id=p.id))
@@ -121,3 +142,25 @@ def _object_fields(obj):
 		return fields
 
 	return False
+
+def _image_processing(path, filename):
+	"""
+	Only does a resize. need to build in cropping
+	"""
+
+	size = 200, 200
+
+	file, og_file_ext = os.path.splitext(filename)
+	file_ext = None
+	if og_file_ext == 'jpg':
+		file_ext = 'jpeg'
+	else:
+		file_ext = og_file_ext
+
+	im = Image.open(os.path.join(path, filename))
+	im.thumbnail(size, Image.ANTIALIAS)
+
+	im.save(path + '/' + file + '.thumbnail.' + file_ext)
+
+	return
+
