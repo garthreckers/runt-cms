@@ -5,7 +5,7 @@ some auth code easier
 import os
 from functools import wraps
 from flask import session, redirect, url_for
-from ..models.users_model import Users
+from ..models.users import Users
 from werkzeug.security import check_password_hash
 
 u = Users()

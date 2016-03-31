@@ -1,7 +1,7 @@
 from peewee import *
 from ..admin.auth import login_checker
 from runt.utils import noindex
-from ..models.users_model import Users
+from ..models import Users
 from flask import render_template, request, redirect
 
 class UserController():

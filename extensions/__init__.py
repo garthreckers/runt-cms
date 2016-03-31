@@ -1,41 +1,37 @@
-import os, sys
+"""
+Initializes extensions and runs install function
+on start up and restart
+"""
+import os
+import sys
 import importlib
-from runt.models.extensions_model import Extensions
+from runt.models.extensions import Extensions
 
 EXT_PATH = os.path.dirname(os.path.abspath(__file__))
-ext_files = os.listdir(EXT_PATH)
+EXT_FILES = os.listdir(EXT_PATH)
 
-"""
+EXTS = Extensions.select(Extensions.name)
 
-rework this code. right now the pycache is throwing this off
-maybe:
-	- active_ext list is based on DB
-	- DB is updated everytime /admin/extensions is loaded
-
-"""
-
-exts = Extensions.select(Extensions.name)
-
-exts_names = []
-for e in exts:
-	exts_names.append(e.name)
+EXTS_NAMES = []
+for e in EXTS:
+	EXTS_NAMES.append(e.name)
 
 def install_ext():
-	for e in ext_files:
-		if not e.startswith('.') and not e.startswith('_'):
-			import_e = 'extensions.' + e + '.' + e
+	"""
+	First - checks the files in /extensions to make sure they are
+	in the DB
+	Second - checks the extensions in the DB to make sure they are
+	in the directory
+	"""
+	for _ef in EXT_FILES:
+		if not _ef.startswith('.') and not _ef.startswith('_'):
+			import_e = 'extensions.' + _ef + '.' + _ef
 			__import__(import_e)
-			if e not in exts_names:
-				Extensions().create(name=e)
-	
-	for e in exts_names:
-		if e not in ext_files:
-			Extensions().delete().where(Extensions.name == e).execute()
+			if _ef not in EXTS_NAMES:
+				Extensions().create(name=_ef)
+
+	for _en in EXTS_NAMES:
+		if _en not in EXT_FILES:
+			Extensions().delete().where(Extensions.name == _en).execute()
 
 install_ext()
-
-	
-	
-
-		
-

@@ -1,6 +1,6 @@
 import os
 import json
-from ..models.settings_model import Settings
+from ..models import Settings
 from runt.utils import noindex
 from ..admin.auth import login_checker
 from flask import render_template, request

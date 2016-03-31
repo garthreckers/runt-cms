@@ -10,22 +10,24 @@
 		Slug: <input type="text" name="slug" value="{{ values.slug }}"><br />
 		Content: <textarea name="content" rows="10" cols="40">{{ values.content }}</textarea><br />
 
-		{% for id, f in fields.items() -%}
+		{% if fields %}
+			{% for id, f in fields.items() -%}
 
-			{{ f.name or id }}: 
+				{{ f.name or id }}: 
 
-			{%- if f.type == 'photo' %}
-				{% if f.value != '' %}
-					<img src="{{ f.value }}" width="100" />
-				{% else %}
-					<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+				{%- if f.type == 'photo' %}
+					{% if f.value != '' %}
+						<img src="{{ f.value }}" width="100" />
+					{% else %}
+						<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+					{% endif %}
+
+				{% elif f.type == 'text' %}
+					<input type="text" name="field--text--{{ id }}" value="{{ f.value }}"><br />
 				{% endif %}
 
-			{% elif f.type == 'text' %}
-				<input type="text" name="field--text--{{ id }}" value="{{ f.value }}"><br />
-			{% endif %}
-
-		{% endfor %}
+			{% endfor %}
+		{% endif %}
 
 		<input type="submit">
 

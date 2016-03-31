@@ -4,7 +4,7 @@ Extension Wrappers
 from extensions import *
 import importlib
 import sys
-from runt.models.extensions_model import Extensions as Ext_Model
+from runt.models import Extensions as Ext_Model
 from flask import render_template
 
 

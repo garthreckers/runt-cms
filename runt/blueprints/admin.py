@@ -3,7 +3,7 @@ import config
 from collections import OrderedDict
 from flask import Blueprint
 from runt.controllers import *
-from runt.models.settings_model import Settings
+from runt.models import Settings
 
 admin_static = config.RUNT_ROOT + '/admin/templates/'
 

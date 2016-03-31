@@ -1,7 +1,7 @@
 import config
 from runt.controllers import *
 from flask import Blueprint
-from runt.models.settings_model import Settings
+from runt.models import Settings
 
 _theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
 

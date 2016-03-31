@@ -77,14 +77,14 @@ class PageController():
 
 								file.save(os.path.join(month_path, filename))
 
-								_image_processing(month_path, filename)
+								self._image_processing(month_path, filename)
 								
 						
 							f = Fields(page_id=p.id, field_id=field_id,\
 										field_value=relative_path + filename)
 							f.save()
 
-				return redirect(url_for('admin_edit_pages', id=p.id))
+				return redirect(url_for('admin.admin_edit_pages', id=p.id))
 		
 		fields = self._object_fields(object_type) or None
 		
@@ -144,14 +144,16 @@ class PageController():
 				""" BROKEN FOR PAGES """
 
 				_o_decode = json.loads(oj.read())
+				print(_o_decode)
 
-				fields = _o_decode[obj]['fields'] 	
+				if obj in _o_decode and 'fields' in _o_decode[obj]:
+					fields = _o_decode[obj]['fields']
 
 			return fields
 
 		return False
 
-	def _image_processing(path, filename):
+	def _image_processing(self, path, filename):
 		"""
 		Need to improve crop quality
 		"""
@@ -180,7 +182,7 @@ class PageController():
 		else:
 			im = im.resize(size)
 
-		im.save(path + '/' + file + '.thumbnail.' + file_ext, quality=80)
+		im.save(path + '/' + file + '.thumbnail.' + og_file_ext, quality=100)
 
 		return
 

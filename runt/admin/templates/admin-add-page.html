@@ -8,17 +8,21 @@
 		Title: <input type="text" name="title" id="add-page-title"><br />
 		Slug: <input type="text" name="slug" id="add-page-slug"><br />
 		Content: <textarea name="content" rows="10" cols="40"></textarea><br />
-		{% for id, f in fields.items() -%}
+		
+		{% if fields %}
+			{% for id, f in fields.items() -%}
 
-			{{ f.name or id }}: 
+				{{ f.name or id }}: 
 
-			{%- if f.type == 'photo' %}
-				<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
-			{% elif f.type == 'text' %}
-				<input type="text" name="field--text--{{ id }}"><br />
-			{% endif %}
+				{%- if f.type == 'photo' %}
+					<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+				{% elif f.type == 'text' %}
+					<input type="text" name="field--text--{{ id }}"><br />
+				{% endif %}
 
-		{% endfor %}
+			{% endfor %}
+		{% endif %}
+
 		<input type="submit">
 
 	</form>
