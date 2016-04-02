@@ -27,7 +27,6 @@ This sets up a static folder for the admin templating
 #runt_root = os.path.dirname(os.path.realpath(__file__))
 #return send_from_directory(, filename)
 
-
 """
 Basic Admin Views
 """
@@ -39,6 +38,9 @@ def admin_index():
 def admin_login():
 	return a.login()
 
+@admin.route('/install', methods=['GET', 'POST'], strict_slashes=False)
+def admin_install():
+	return a.install()
 
 """
 Users

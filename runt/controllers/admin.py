@@ -1,6 +1,6 @@
 from ..admin.auth import login_checker
 from runt.utils import noindex
-from ..admin.install import check_install, install_runt
+from ..admin.install import runt_installed, install_runt
 from flask import render_template, request
 
 class AdminController():
@@ -41,7 +41,7 @@ class AdminController():
 		Returns installation page which sets up 
 		the first user. 
 		"""
-		if not check_install:
+		if runt_installed():
 			return "You have already installed Runt CMS"
 
 		err_return = {}

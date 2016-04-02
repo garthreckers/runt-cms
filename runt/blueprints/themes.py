@@ -3,6 +3,7 @@ from runt.controllers import *
 from flask import Blueprint
 from runt.models import Settings
 
+
 _theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
 
 template_folder = config.ROOT_DIR + '/themes/' + _theme

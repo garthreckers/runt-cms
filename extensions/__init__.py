@@ -13,8 +13,10 @@ EXT_FILES = os.listdir(EXT_PATH)
 EXTS = Extensions.select(Extensions.name)
 
 EXTS_NAMES = []
+
 for e in EXTS:
 	EXTS_NAMES.append(e.name)
+
 
 def install_ext():
 	"""

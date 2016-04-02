@@ -15,10 +15,21 @@
 				{{ f.name or id }}: 
 
 				{%- if f.type == 'photo' %}
-					<input type="file" name="field--photo--{{ id }}" accept="image/*"><br />
+					<input type="file" name="field--photo--{{ id }}" accept="image/*">
 				{% elif f.type == 'text' %}
-					<input type="text" name="field--text--{{ id }}"><br />
+					<input type="text" name="field--text--{{ id }}">
+				{% elif f.type == 'textarea' %}
+					<textarea name="field--text--{{ id }}" rows="10" cols="40"></textarea>
+				{% elif f.type == 'cross_object' %}
+					<select name="field--text--{{ id }}">
+						{% for o_id, o_title in f.object_items.items() %}
+							<option value="{{ o_id }}">{{ o_title }}</option>
+						{% endfor %}
+					</select>
+				{% elif f.type == 'wysiwyg' %}
+					<textarea class="pages-wysiwyg" name="field--text--{{ id }}" rows="10" cols="40"></textarea>
 				{% endif %}
+				<br />
 
 			{% endfor %}
 		{% endif %}

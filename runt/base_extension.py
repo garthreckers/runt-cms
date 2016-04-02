@@ -19,6 +19,9 @@ class BaseExtension():
 	def __init__(self):
 		pass
 
+	def install(self):
+		return False
+
 	def before_template_load(self, *args, **kwargs):
 		"""
 		Return False because load_template will check if

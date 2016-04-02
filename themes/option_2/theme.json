@@ -4,5 +4,17 @@
 		"author": "Garth Reckers",
 		"copyright": "© Garth Reckers 2016"
 	},
-	"globals": ""
+	"globals": "",
+	"image_sizes": {
+		"large": {
+			"crop": "soft",
+			"width": "1200",
+			"height": "1200"
+		},
+		"16-by-9": {
+			"crop": "hard",
+			"width": "1000",
+			"height": "562"
+		}
+	}
 }

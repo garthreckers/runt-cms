@@ -1,12 +1,19 @@
 """
 Extension Wrappers
+
 """
-from extensions import *
-import importlib
 import sys
+import pip
+import importlib
+from extensions import *
 from runt.models import Extensions as Ext_Model
 from flask import render_template
 
+def module_install_script(ext):
+
+	eval(ext).Extension().install()
+	
+	return
 
 def load_template(template, **kwargs):
 	"""

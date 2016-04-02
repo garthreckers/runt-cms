@@ -10,7 +10,20 @@
 			"blog_text_field": {
 				"type": "text",
 				"name": "Blog Text Field"
-			} 
+			},
+			"long_description": {
+				"type": "textarea",
+				"name": "Long Description"
+			},
+			"connected_page": {
+				"type": "cross_object",
+				"name": "Connected Page",
+				"object": "page"
+			},
+			"detailed_desc": {
+				"type": "wysiwyg",
+				"name": "Details"
+			}
 		}
 	},
 	"event": {

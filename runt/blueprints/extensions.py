@@ -1,9 +1,12 @@
-import os, json
+import os
+import json
+import sys
 import config
 from flask import Blueprint, send_from_directory,\
 					request, render_template, redirect, url_for
 from runt.models import Settings, Extensions
-from runt.extensions import inject_header, inject_footer
+from runt.extensions import inject_header, inject_footer,\
+								module_install_script
 
 extensions = Blueprint('extensions', __name__)
 
@@ -26,6 +29,9 @@ def admin_extensions():
 			Extensions.update(active=activation).where(Extensions.name == name).execute()
 		else:
 			Extensions.create(name=name, active=activation)
+
+		if activation:
+			module_install_script(name)
 
 		return redirect(url_for('extensions.admin_install_extensions'))
 

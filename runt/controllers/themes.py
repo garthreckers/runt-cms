@@ -7,8 +7,6 @@ from runt.models import *
 from flask import send_from_directory, redirect
 from runt.extensions import load_template
 
-
-
 class ThemeController():
 	def __init__(self):
 		self._theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value

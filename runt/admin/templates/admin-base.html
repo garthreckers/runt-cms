@@ -4,6 +4,9 @@
 
 <title>{% block title %}Runt CMS{% endblock %}</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static', filename='css/admin.css')}}">
+
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
 <meta name="robot" content="none">
 </head>
 <body>
@@ -23,9 +26,26 @@ function stringToSlug(s)
 var formTitle = document.getElementById('add-page-title');
 var formSlug = document.getElementById('add-page-slug');
 
-formTitle.onblur = function() {
-	formSlug.value = stringToSlug(formTitle.value);	
+if( formSlug == '' ) {
+	formTitle.onblur = function() {
+		formSlug.value = stringToSlug(formTitle.value);	
+	}
 }
+	
+tinymce.init({
+  selector: 'textarea.pages-wysiwyg',
+  height: 500,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table contextmenu paste code'
+  ],
+  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  content_css: [
+    '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+    '//www.tinymce.com/css/codepen.min.css'
+  ]
+});
 
 </script>
 </body>

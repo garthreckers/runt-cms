@@ -63,6 +63,7 @@ class PageController():
 						name_split = name.split("--")
 						field_type = name_split[1]
 						field_id = name_split[2]
+						
 						if field_type == 'photo':
 
 							if file and file.filename.endswith(('.jpg','.png')):
@@ -78,10 +79,16 @@ class PageController():
 								file.save(os.path.join(month_path, filename))
 
 								self._image_processing(month_path, filename)
+
+								field_out = relative_path + filename
+
+							else:
+
+								field_out = file
 								
 						
 							f = Fields(page_id=p.id, field_id=field_id,\
-										field_value=relative_path + filename)
+										field_value=field_out)
 							f.save()
 
 				return redirect(url_for('admin.admin_edit_pages', id=p.id))
@@ -144,10 +151,24 @@ class PageController():
 				""" BROKEN FOR PAGES """
 
 				_o_decode = json.loads(oj.read())
-				print(_o_decode)
 
 				if obj in _o_decode and 'fields' in _o_decode[obj]:
+					
 					fields = _o_decode[obj]['fields']
+					
+					for _k, _v in fields.items():
+						
+						if _v['type'] == 'cross_object' and 'object' in _v:
+						
+							_p_o = Pages.select().where(Pages.object_type == _v['object'])
+							
+							_temp_o = {}
+
+							for _p in _p_o:
+						
+								_temp_o[_p.id] = _p.title
+
+							fields[_k]['object_items'] = _temp_o
 
 			return fields
 
@@ -155,34 +176,61 @@ class PageController():
 
 	def _image_processing(self, path, filename):
 		"""
-		Need to improve crop quality
+		Crops images based on theme.json's image_sizes object. The values in 
+		theme.json will override the defaults if they are provided.
 		"""
 
-		size = (200, 200)
+		image_sizes = {
+			"large": {
+				"crop": "soft",
+				"width": "1000",
+				"height": "1000"
+			},
+			"medium": {
+				"crop": "soft",
+				"width": "500",
+				"height": "500"
+			},
+			"small": {
+				"crop": "hard",
+				"width": "200",
+				"height": "200"
+			}
+		}
 
-		file, og_file_ext = os.path.splitext(filename)
-		file_ext = None
-		if og_file_ext == 'jpg':
-			file_ext = 'jpeg'
-		else:
-			file_ext = og_file_ext
+		theme_json_path = config.ROOT_DIR + '/themes/' + self._theme + '/theme.json'
 
-		im = Image.open(os.path.join(path, filename))
-		image_ratio = im.size[0] / im.size[1]
-		ratio = size[0] / size[1]
+		with open(theme_json_path, 'r') as _tj:
+			_t_decode = json.loads(_tj.read())
+			image_sizes.update(_t_decode['image_sizes'])
 
-		if ratio > image_ratio:
-			im = im.resize((size[0], size[0] * im.size[1] // im.size[0]), Image.ANTIALIAS)
-			box = (0, ((im.size[1] - size[1]) // 2), im.size[0], (im.size[1] + size[1]) // 2)
-			im = im.crop(box)
-		elif ratio < image_ratio:
-			im = im.resize(((size[1] * im.size[0]) // im.size[1], size[0]), Image.ANTIALIAS)
-			box = ((im.size[0] - size[0]) // 2, 0, (im.size[0] + size[0]) // 2, im.size[1])
-			im = im.crop(box)
-		else:
-			im = im.resize(size)
+		print(image_sizes)
 
-		im.save(path + '/' + file + '.thumbnail.' + og_file_ext, quality=100)
+		file, file_ext = os.path.splitext(filename)
+
+		for _is_id, _is_details in image_sizes.items():
+
+			size = (int(_is_details['width']), int(_is_details['height']))
+
+			im = Image.open(os.path.join(path, filename))
+			image_ratio = im.size[0] / im.size[1]
+			ratio = size[0] / size[1]
+
+			if _is_details['crop'] == 'hard':
+				if ratio > image_ratio:
+					im = im.resize((size[0], size[0] * im.size[1] // im.size[0]), Image.ANTIALIAS)
+					box = (0, ((im.size[1] - size[1]) // 2), im.size[0], (im.size[1] + size[1]) // 2)
+					im = im.crop(box)
+				elif ratio < image_ratio:
+					im = im.resize(((size[1] * im.size[0]) // im.size[1], size[0]), Image.ANTIALIAS)
+					box = ((im.size[0] - size[0]) // 2, 0, (im.size[0] + size[0]) // 2, im.size[1])
+					im = im.crop(box)
+				else:
+					im = im.resize(size)
+			elif _is_details['crop'] == 'soft':	
+				im.thumbnail(size)
+
+			im.save(path + '/' + file + '.' + _is_id + '.' + file_ext, quality=100, subsampling=0)
 
 		return
 
