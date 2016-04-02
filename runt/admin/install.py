@@ -10,7 +10,6 @@ def runt_installed():
 	"""
 	if Users.table_exists():
 		if Users.select().count() > 0:
-			print('****************')
 			return True	
 
 	return False

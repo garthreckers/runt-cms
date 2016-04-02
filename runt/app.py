@@ -16,9 +16,17 @@ from . import blueprints
 
 APP = Flask(__name__, static_url_path='/overriding-static')
 
-APP.register_blueprint(blueprints.extensions)
-APP.register_blueprint(blueprints.themes)
-APP.register_blueprint(blueprints.admin, url_prefix='/admin')
+if runt_installed():
+	APP.register_blueprint(blueprints.extensions)
+	APP.register_blueprint(blueprints.themes)
+	APP.register_blueprint(blueprints.admin, url_prefix='/admin')
+else:
+	from .controllers import AdminController
+	@APP.route('/')
+	@APP.route('/<path:path>')
+	def first_install():
+		return AdminController().install()
+
 
 @APP.context_processor
 def ext_inject_footer():
