@@ -5,6 +5,7 @@ some auth code easier
 import os
 from functools import wraps
 from flask import session, redirect, url_for
+from .install import runt_installed
 from ..models.users import Users
 from werkzeug.security import check_password_hash
 
@@ -54,8 +55,11 @@ def login_checker(func):
 	"""
 	@wraps(func)
 	def func_wrap(*args, **kwargs):
+		if not runt_installed():
+			return redirect(url_for('admin.install'))
+
 		if logged_in():
 			return func(*args, **kwargs)
 		else:
-			return redirect(url_for('admin_login'))
+			return redirect(url_for('admin.login'))
 	return func_wrap

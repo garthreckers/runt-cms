@@ -31,30 +31,30 @@ This sets up a static folder for the admin templating
 Basic Admin Views
 """
 @admin.route('/', strict_slashes=False)
-def admin_index():
+def index():
 	return a.index()
 
 @admin.route('/login', methods=['GET', 'POST'], strict_slashes=False)
-def admin_login():
+def login():
 	return a.login()
 
 @admin.route('/install', methods=['GET', 'POST'], strict_slashes=False)
-def admin_install():
+def install():
 	return a.install()
 
 """
 Users
 """
 @admin.route('/users', strict_slashes=False)
-def admin_users_page():
+def users_page():
 	return u.index()
 
 @admin.route("/users/add/", methods=['GET', 'POST'], strict_slashes=False)
-def admin_users_add():
+def users_add():
 	return u.add()
 
 @admin.route("/users/delete/<uname>", methods=['GET', 'POST'], strict_slashes=False)
-def admin_users_delete(uname):
+def users_delete(uname):
 	return u.delete(uname)
 
 
@@ -62,7 +62,7 @@ def admin_users_delete(uname):
 Settings
 """
 @admin.route("/theme", methods=['GET', 'POST'], strict_slashes=False)
-def admin_theme():
+def theme():
 	return s.themes()
 
 
@@ -71,13 +71,13 @@ def admin_theme():
 Pages
 """
 @admin.route("/pages", strict_slashes=False)
-def admin_pages():
+def pages():
 	return p.all()
 
 @admin.route("/pages/add", methods=['GET', 'POST'], strict_slashes=False)
-def admin_add_pages():
+def add_pages():
 	return p.add()
 
 @admin.route("/pages/edit/<id>", methods=['GET', 'POST'], strict_slashes=False)
-def admin_edit_pages(id):
+def edit_pages(id):
 	return p.edit(id)

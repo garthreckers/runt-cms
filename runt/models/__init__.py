@@ -11,4 +11,3 @@ if not Settings.table_exists():
 	mysql_db.create_tables([Settings, Users, Pages, Extensions, Fields])
 	
 	Settings.create(field='theme', value='default')
-

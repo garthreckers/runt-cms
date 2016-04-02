@@ -91,7 +91,7 @@ class PageController():
 										field_value=field_out)
 							f.save()
 
-				return redirect(url_for('admin.admin_edit_pages', id=p.id))
+				return redirect(url_for('admin.edit_pages', id=p.id))
 		
 		fields = self._object_fields(object_type) or None
 		

@@ -26,11 +26,12 @@ function stringToSlug(s)
 var formTitle = document.getElementById('add-page-title');
 var formSlug = document.getElementById('add-page-slug');
 
-if( formSlug == '' ) {
-	formTitle.onblur = function() {
-		formSlug.value = stringToSlug(formTitle.value);	
-	}
+formTitle.onblur = function() {
+  if(formSlug.value == '') {
+  	formSlug.value = stringToSlug(formTitle.value);	
+  }
 }
+
 	
 tinymce.init({
   selector: 'textarea.pages-wysiwyg',
