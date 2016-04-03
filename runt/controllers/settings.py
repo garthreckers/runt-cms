@@ -12,7 +12,7 @@ class SettingsController():
 	#@login_check
 	@noindex
 	def index(self):
-		return render_template('admin-base.html', pageheader="Main Settings Page")
+		return render_template('base.html', pageheader="Main Settings Page")
 
 	@noindex
 	def themes(self):
@@ -43,4 +43,4 @@ class SettingsController():
 			""" Change current theme to update theme """
 			current_theme = new_theme
 
-		return render_template('admin-themes.html', pageheader="Pick a theme", themes=themes, current=current_theme)
+		return render_template('themes.html', pageheader="Pick a theme", themes=themes, current=current_theme)

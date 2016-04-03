@@ -11,7 +11,8 @@ from flask import render_template
 
 def module_install_script(ext):
 
-	eval(ext).Extension().install()
+	e_mod = getattr(sys.modules[__name__], ext)
+	e_mod.Extension().install()
 	
 	return
 
@@ -29,11 +30,13 @@ def load_template(template, **kwargs):
 	install_ext()
 
 	for e in active_e:
-		return_kwargs = eval(e.name).Extension().inject_variables(**kwargs)
+		e_mod = getattr(sys.modules[__name__], e.name)
+		return_kwargs = e_mod.Extension().inject_variables(**kwargs)
 
 	""" loop through before_template_load's and returns if need be """
 	for e in active_e:
-		e_before = eval(e.name).Extension().before_template_load(**(return_kwargs))
+		e_mod = getattr(sys.modules[__name__], e.name)
+		e_before = e_mod.Extension().before_template_load(**(return_kwargs))
 	
 		if e_before:
 			return e_before
@@ -47,7 +50,8 @@ def inject_footer():
 	active_e = Ext_Model.select().where(Ext_Model.active == True)
 
 	for e in active_e:
-		e_return = eval(e.name).Extension().inject_footer(inject)
+		e_mod = getattr(sys.modules[__name__], e.name)
+		e_return = e_mod.Extension().inject_footer(inject)
 		inject = inject + e_return
 		
 	return dict(runt_footer=inject)
@@ -59,7 +63,8 @@ def inject_header():
 	active_e = Ext_Model.select().where(Ext_Model.active == True)
 
 	for e in active_e:
-		e_return = eval(e.name).Extension().inject_header(inject)
+		e_mod = getattr(sys.modules[__name__], e.name)
+		e_return = e_mod.Extension().inject_header(inject)
 		inject = inject + e_return
 		
 	return dict(runt_header=inject)

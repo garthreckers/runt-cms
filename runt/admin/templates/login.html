@@ -1,4 +1,4 @@
-{% extends "admin-base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
@@ -10,6 +10,7 @@
 				{% if error %}{{ error }}<br />{% endif %}
 				<p><input type="text" name="uname" placeholder="Username"></p>
 				<p><input type="password" name="password" placeholder="Password"></p>
+				
 				<p><input type="submit"></p>
 			</form>
 		</div>

@@ -19,7 +19,7 @@ class PageController():
 
 		pages = Pages.select().where(Pages.object_type == object_type).order_by(+Pages.title)
 
-		return render_template("admin-all-pages.html", pages=pages, object_type=object_type, pageheader=pageheader)
+		return render_template("all-pages.html", pages=pages, object_type=object_type, pageheader=pageheader)
 
 	@noindex
 	def add(self):
@@ -97,7 +97,7 @@ class PageController():
 
 		pageheader = "Add New " + object_type.title()
 		
-		return render_template("admin-add-page.html", error=err_return,\
+		return render_template("add-page.html", error=err_return,\
 								 object_type=object_type, fields=fields,\
 								 pageheader=pageheader)
 
@@ -135,7 +135,7 @@ class PageController():
 				fields[a.field_id]['value'] = a.field_value
 
 
-			return render_template("admin-edit-page.html", values=values,\
+			return render_template("edit-page.html", values=values,\
 										error=err_return, object_type=object_type,\
 										fields=fields)
 

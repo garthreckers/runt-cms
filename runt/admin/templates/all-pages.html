@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+
+{% block inner_content %}
+
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Slug</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for p in pages %}
+					<tr>
+						<td>{{ p.title }}</td>
+						<td>{{ p.slug }}</td>
+						<td><a href="/admin/pages/edit/{{ p.id }}?object-type={{ object_type }}">Edit</a></td>
+						<td><a href="/
+							{%- if object_type == 'page' -%}
+								{{ p.slug }}
+							{%- else -%}
+								{{ object_type }}/{{ p.slug }}
+							{%- endif -%}
+
+							" target="_blank">View</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="text-right">
+		<a href="/admin/pages/add?object-type={{ object_type }}"><strong>+</strong> Add page</a>
+	</div>
+{% endblock %}

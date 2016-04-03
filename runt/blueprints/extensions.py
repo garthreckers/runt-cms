@@ -55,7 +55,7 @@ def admin_extensions():
 			_exts_temp_dict.update({"active": False})
 			exts_dict.update({e.name: _exts_temp_dict})
 
-	return render_template("admin-extensions.html", pageheader="Extensions", extensions=exts_dict)
+	return render_template("extensions.html", pageheader="Extensions", extensions=exts_dict)
 
 
 """

@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+
+{% block inner_content %}
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Level</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for r in return_list %}
+					<tr>
+						<td>{{ r.username }}</td>
+						<td>{{ r.email }}</td>
+						<td>{{ r.level | title }}</td>
+						<td><a href="/admin/users/edit/{{ r.username }}">Edit</a></td>
+						<td><a href="/admin/users/delete/{{ r.username }}">Delete</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="text-right">
+		<a href="/admin/users/add"><strong>+</strong> Add user</a>
+	</div>
+{% endblock %}

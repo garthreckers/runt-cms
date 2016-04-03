@@ -10,7 +10,7 @@ class AdminController():
 	#@login_checker
 	@noindex
 	def index(self):
-		return render_template('admin-main.html')
+		return render_template('main.html')
 
 	@noindex
 	def login(self):
@@ -33,7 +33,7 @@ class AdminController():
 				err_return = "Username field is required"
 
 
-		return render_template('admin-login.html', error=err_return)
+		return render_template('login.html', error=err_return)
 
 	@noindex
 	def install(self):
@@ -75,4 +75,4 @@ class AdminController():
 				install_runt(username=request.form['uname'], email=request.form['email'], password=request.form['password'])
 				return redirect(url_for('admin.index'))
 
-		return render_template('admin-install.html', error=err_return, values=values)
+		return render_template('install.html', error=err_return, values=values)

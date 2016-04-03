@@ -2,7 +2,8 @@ from peewee import *
 from ..admin.auth import login_checker
 from runt.utils import noindex
 from ..models import Users
-from flask import render_template, request, redirect
+from flask import render_template, request,\
+					redirect, url_for
 
 class UserController():
 	def __init__(self):
@@ -14,8 +15,8 @@ class UserController():
 		"""
 		This returns a list of all users
 		"""
-		return_list = Users.select(Users.id, Users.username, Users.level).order_by(Users.username)
-		return render_template('admin-page.html', pageheader="Users", return_list=return_list)
+		return_list = Users.select(Users.id, Users.email, Users.username, Users.level).order_by(Users.username)
+		return render_template('all-users.html', pageheader="Users", return_list=return_list)
 
 	#@login_checker
 	@noindex
@@ -66,7 +67,7 @@ class UserController():
 					return redirect(url_for('admin_users_page'))
 				
 
-		return render_template('admin-add-user.html', pageheader="Add User", error=err_return, values=values)
+		return render_template('add-user.html', pageheader="Add User", error=err_return, values=values)
 
 	#@login_checker
 	@noindex
@@ -87,5 +88,5 @@ class UserController():
 
 				return redirect(url_for('admin_users_page'))
 
-		return render_template('admin-delete-user.html', pageheader="Delete User", error=err_return)
+		return render_template('delete-user.html', pageheader="Delete User", error=err_return)
 

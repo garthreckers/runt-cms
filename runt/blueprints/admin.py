@@ -5,7 +5,7 @@ from flask import Blueprint
 from runt.controllers import *
 from runt.models import Settings
 
-admin_static = config.RUNT_ROOT + '/admin/templates/'
+admin_static = config.RUNT_ROOT + '/admin/templates/static'
 
 admin = Blueprint('admin', __name__,
 						template_folder='../admin/templates',

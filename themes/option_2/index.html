@@ -28,9 +28,11 @@ List of blogs
 </ul>
 
 <ul>
-	{% for id, r in reddit_api.items() %}
-		<li><a href="{{ r.url }}">{{ r.title }}</a></li>
-	{% endfor %}
+	{% if reddit_api %}
+		{% for id, r in reddit_api.items() %}
+			<li><a href="{{ r.url }}">{{ r.title }}</a></li>
+		{% endfor %}
+	{% endif %}
 
 </ul>
 
