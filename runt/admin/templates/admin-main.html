@@ -3,18 +3,20 @@
 {% block content %}
 <nav class="admin-nav fixed">
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-				<ul class="list-inline">
-					{% for m, url in admin_menu.items() %}
-						<li><a href="{{ url }}">{{ m }}</a></li>
-					{% endfor %}
-				</ul>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="list-inline">
+						{% for m, url in admin_menu.items() %}
+							<li><a href="{{ url }}">{{ m }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
 </nav>
-<div class="container-fluid main-content">
+<div class="container main-content">
 	<div class="row">
 		<div class="col-xs-12">
 			

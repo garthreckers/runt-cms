@@ -22,6 +22,9 @@
 			{% set count = count + 1 %}
 		{% endfor %}
 	</ul>
+	{% if request.method == 'POST' %}
+		<iframe src="/admin/restart_app" width="0" height="0" style="opacity: 0;" id="restart_app"></iframe>
+	{% endif %}
 
 
 {% endblock %}

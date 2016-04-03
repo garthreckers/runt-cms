@@ -1,4 +1,4 @@
-import pip
+import os
 from runt.base_extension import BaseExtension
 from flask import request, jsonify
 
@@ -27,12 +27,6 @@ class Extension(BaseExtension):
 		inject = injection + add_on
 		return inject
 
-		
-	"""
-	BROKEN
-	BROKEN
-	BROKEN
-	"""
-	"""def install(self):
-		pip.main(['install', '--force-reinstall', 'twilio'])
-		return"""
+	def install(self):
+		os.system('pip install twilio')
+		return

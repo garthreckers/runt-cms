@@ -94,8 +94,12 @@ class PageController():
 				return redirect(url_for('admin.edit_pages', id=p.id))
 		
 		fields = self._object_fields(object_type) or None
+
+		pageheader = "Add New " + object_type.title()
 		
-		return render_template("admin-add-page.html", error=err_return, object_type=object_type, fields=fields)
+		return render_template("admin-add-page.html", error=err_return,\
+								 object_type=object_type, fields=fields,\
+								 pageheader=pageheader)
 
 	@noindex
 	def edit(self, id):
@@ -128,7 +132,6 @@ class PageController():
 			allf = Fields.select().where(Fields.page_id == id)
 			
 			for a in allf:
-				#print(shortcuts.model_to_dict(a))
 				fields[a.field_id]['value'] = a.field_value
 
 

@@ -12,7 +12,7 @@
 <h1>Option 2 Homepage</h1>
 List of pages
 <br /><br />
-{{ this_path }}
+
 <ul>
 	{% for p in content.page %}
 		<li>{{ p.title }}</li>
@@ -23,6 +23,13 @@ List of blogs
 <ul>
 	{% for b in content.blog %}
 		<li>{{ b.title }}</li>
+	{% endfor %}
+
+</ul>
+
+<ul>
+	{% for id, r in reddit_api.items() %}
+		<li><a href="{{ r.url }}">{{ r.title }}</a></li>
 	{% endfor %}
 
 </ul>

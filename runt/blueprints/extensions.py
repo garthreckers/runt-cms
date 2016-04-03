@@ -33,7 +33,7 @@ def admin_extensions():
 		if activation:
 			module_install_script(name)
 
-		return redirect(url_for('extensions.admin_install_extensions'))
+		#return redirect(url_for('extensions.admin_install_extensions'))
 
 		
 	exts = Extensions.select().order_by(+Extensions.name)
@@ -62,9 +62,9 @@ def admin_extensions():
 Basically when admin/extensions/install is hit, the iframe will fail but will successfully
 restart the python server. 
 """
-@extensions.route("/admin/extensions/install")
+"""@extensions.route("/admin/extensions/install")
 def admin_install_extensions():
-	return render_template("admin-extensions-install.html", pageheader="Processing...")
+	return render_template("admin-extensions-install.html", pageheader="Processing...")"""
 
 @extensions.route("/admin/restart_app")
 def admin_restart_app():
