@@ -1,27 +1,65 @@
 {% extends "main.html" %}
 
 {% block inner_content %}
-	<a href="/admin/extensions/install">Refresh List of Plugins</a>
-	<ul>
-		{% set count = 1 %}
-		{% for name, e in extensions.items() %}
-			<li>{{ e.name or name }} - {{ e.author }} - {% if e.active -%}
-										<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
-											<input type="hidden" name="activation" value="deactivate">
-											<input type="hidden" name="ext_name" value="{{ name }}">
-											<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Deactivate</a>
-										</form>
-									{%- else -%}
-										<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
-											<input type="hidden" name="activation" value="activate">
-											<input type="hidden" name="ext_name" value="{{ name }}">
-											<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Activate</a>
-										</form>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Extension Name</th>
+					<th>Author</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set count = 1 %}
+				{% for name, e in extensions.items() %}
+					
+					<tr>
+						<td>{{ e.name or name }}</td>
+						<td>{{ e.author }}</td>
+						<td>
+							{%- if e.active -%}
+								<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
+									<input type="hidden" name="activation" value="deactivate">
+									<input type="hidden" name="ext_name" value="{{ name }}">
+									<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Deactivate</a>
+								</form>
+							{%- else -%}
+								<form id="ext_form_{{ count }}" style="display:inline;" method="POST" action="">
+									<input type="hidden" name="activation" value="activate">
+									<input type="hidden" name="ext_name" value="{{ name }}">
+									<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Activate</a>
+								</form>
 										
-									{%- endif %}</li>
-			{% set count = count + 1 %}
-		{% endfor %}
-	</ul>
+							{%- endif -%}
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="3">
+							{%- if e.description -%}
+								<p>{{ e.description }}</p>
+								{%- if e.copyright -%}
+									<p><small>{{ e.copyright }}</small></p>
+								{%- endif -%}
+							{%- elif e.copyright -%}
+								<p><small>{{ e.copyright }}</small></p>
+							{%- else -%}
+								&nbsp;
+							{%- endif -%}
+						</td>
+					</tr>
+
+					{% set count = count + 1 %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="text-right">
+		<a href="/admin/extensions/install"><span class="glyphicon glyphicon-refresh"></span> Refresh List of Plugins</a>
+	</div>
+
 	{% if request.method == 'POST' %}
 		<iframe src="/admin/restart_app" width="0" height="0" style="opacity: 0;" id="restart_app"></iframe>
 	{% endif %}

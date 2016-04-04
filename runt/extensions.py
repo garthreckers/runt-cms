@@ -6,13 +6,28 @@ import sys
 import pip
 import importlib
 from extensions import *
-from runt.models import Extensions as Ext_Model
+from peewee import *
+from .models import Extensions as Ext_Model
 from flask import render_template
+from .models.base_model import mysql_db, BaseModel
 
 def module_install_script(ext):
 
 	e_mod = getattr(sys.modules[__name__], ext)
-	e_mod.Extension().install()
+	_e = e_mod.Extension()
+
+	_e.install_scripts()
+
+	_e_model = _e.install_models()
+	
+	if _e_model:
+		_e_list = []
+		for _e_m in _e_model:
+			if not _e_m.table_exists():
+				_e_list.append(_e_m)
+
+		mysql_db.connect()
+		mysql_db.create_tables(_e_list)
 	
 	return
 

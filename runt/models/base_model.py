@@ -11,7 +11,7 @@ class BaseModel(Model):
 	class Meta:
 		database = mysql_db
 
-	def show_tables():
+	def show_tables(self):
 		t = mysql_db.execute_sql("SHOW TABLES;")
 		# t returns a list of tuples so show_tables will now return list of tables
 		return [r[0] for r in t]

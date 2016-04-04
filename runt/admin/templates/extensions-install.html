@@ -2,10 +2,21 @@
 
 {% block inner_content %}
 
-<script type="text/javascript">
-document.getElementById('restart_app').onload = function() {
-	window.location.replace("/admin/extensions")
-}
-</script>
+	<iframe src="/admin/restart_app" width="0" height="0" style="opacity: 0;" id="restart_app"></iframe>
+
+	<script type="text/javascript">
+	document.getElementById('restart_app').onload = function() {
+		var request = new XMLHttpRequest();
+		var url = "/admin/extensions";
+
+		request.open('GET', url, true);
+		if (request.readyState === 4){
+			while(request.status === 500) {  
+				console.log('no');
+			}
+		}
+		window.location.replace("/admin/extensions")
+	}
+	</script>
 
 {% endblock %}

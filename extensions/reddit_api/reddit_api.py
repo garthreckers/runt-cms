@@ -1,4 +1,5 @@
 import os
+from .reddit_models import Reddit
 from runt.base_extension import BaseExtension
 
 class Extension(BaseExtension):
@@ -22,6 +23,9 @@ class Extension(BaseExtension):
 		
 		return add_on
 
-	def install(self):
+	def install_scripts(self):
 		os.system('pip3 install praw')
 		return
+
+	def install_models(self):
+		return [Reddit]

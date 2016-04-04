@@ -19,7 +19,10 @@ class BaseExtension():
 	def __init__(self):
 		pass
 
-	def install(self):
+	def install_scripts(self):
+		return False
+
+	def install_models(self):
 		return False
 
 	def before_template_load(self, *args, **kwargs):

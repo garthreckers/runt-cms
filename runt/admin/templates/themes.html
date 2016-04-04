@@ -4,29 +4,38 @@
 	<div class="row">
 		{% set count = 1 %}
 		{% for theme, details in themes.items() %}
-			<div class="col-xs-4">
-				<p><strong>
-				{%- if details['name'] %}
-					{{ details['name'] }}
-				{% else %}
-					{{ theme }}
-				{% endif -%}
-				</strong>
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<div class="admin-theme {% if theme == current %}current{% endif %}">
+					<h3 class="tight-top">
+					{%- if details['name'] %}
+						{{ details['name'] }}
+					{% else %}
+						{{ theme }}
+					{% endif -%}
+					</h3>
 
-				{% if details['author'] %}
-					<br />by: {{ details['author'] }}
-				{% endif %}
-				</p>
+					{% if details['author'] %}
+						<strong>by: {{ details['author'] }}</strong>
+					{% endif %}
+					</p>
 
-				{%- if theme != current -%}
-					<form id="theme_form_{{ count }}" style="display:inline;" method="POST" action="">
-						<input type="hidden" name="theme" value="{{ theme }}">
-						<a href="#" onclick="document.getElementById('theme_form_{{ count }}').submit(); return false;">Make Theme</a>
-					</form>
-				{%- else -%}
-					Current
-				{%- endif %}
+					{%- if theme != current -%}
+						<form id="theme_form_{{ count }}" style="display:inline;" method="POST" action="">
+							<input type="hidden" name="theme" value="{{ theme }}">
+							<button class="btn btn-primary" href="#" onclick="document.getElementById('theme_form_{{ count }}').submit(); return false;">Make Theme</button>
+						</form>
+					{%- endif %}
+				</div>
 			</div>
+			
+			{%- if count % 4 == 0 -%}
+				<div class="clearfix gutter-top-bottom col-xs-12"></div>
+			{%- elif count % 2 == 0 -%}
+				<div class="clearfix gutter-top-bottom col-xs-12 hidden-md hidden-lg"></div>
+			{%- else -%}
+				<div class="clearfix gutter-top-bottom col-xs-12 visible-xs"></div>
+			{%- endif -%}
+
 			{% set count = count + 1 %}
 		{% endfor %}
 	</div>

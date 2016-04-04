@@ -1,6 +1,8 @@
 @import "bootstrap/bootstrap";
+@import "reusables";
 
 $dark: #3C4C66;
+$darker: #26344b;
 $light: #E7E7E7;
 $lighter: #F7F7F0;
 $highlight: #F38630;
@@ -37,4 +39,22 @@ body {
 	a {
 		color: $highlight;
 	}
+}
+
+.btn-primary {
+	background: $dark;
+	color: $light;
+	text-shadow: none;
+	&:hover, &:focus {
+		background: $darker;
+		cursor: pointer;
+	}
+}
+
+.admin-theme{
+	border-top: 5px solid $dark;
+	&.current {
+		border-top: 5px solid $highlight;
+	}
+
 }

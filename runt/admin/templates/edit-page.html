@@ -3,45 +3,65 @@
 {% block inner_content %}
 	<h1>Edit {{ object_type | title }}</h1>
 	<a href="/{{ values.id }}" target="_blank">View</a><br />
-	<form method="POST" action="" enctype="multipart/form-data" >
+	
+	<form method="POST" action="" id="admin-edit-page" enctype="multipart/form-data" >
 		{% if error %}{{ error }}{% endif %}
 
-		Title: <input type="text" name="title" value="{{ values.title }}"><br />
-		Slug: <input type="text" name="slug" value="{{ values.slug }}"><br />
-		Content: <textarea name="content" rows="10" cols="40">{{ values.content }}</textarea><br />
+		<fieldset class="form-group">
+			<label for="title">Title</label>
+			<input type="text" class="form-control" name="title" value="{{ values.title }}" id="add-page-title">
+		</fieldset>
+			
+		<fieldset class="form-group">
+			<label for="slug">Slug</label>
+			<input type="text" class="form-control" name="slug" value="{{ values.slug }}" id="add-page-slug">
+		</fieldset>
+			
+		<fieldset class="form-group">
+			<label for="content">Content</label>
+			<textarea class="pages-wysiwyg" name="content" rows="10" cols="40">{{ values.content }}</textarea>
+		</fieldset>
+			
+		
 
+		
 		{% if fields %}
 			{% for id, f in fields.items() -%}
+				<fieldset class="form-group">
+					<label for="field--photo--{{ id }}">{{ f.name or id }}</label>
 
-				{{ f.name or id }}: 
+					{%- if f.type == 'photo' %}
 
-				{%- if f.type == 'photo' %}
-					{% if f.value != '' %}
-						<img src="{{ f.value }}" width="300" />
-					{% else %}
-						<input type="file" name="field--photo--{{ id }}" accept="image/*">
+						{% if f.value != '' %}
+							<img src="{{ f.value }}" width="300" />
+						{% else %}
+							<input type="file" name="field--photo--{{ id }}" accept="image/*">
+						{% endif %}
+				
+					{% elif f.type == 'text' %}
+						<input type="text" class="form-control" value="{{ f.value }}" name="field--text--{{ id }}">
+					{% elif f.type == 'textarea' %}
+						<textarea name="field--text--{{ id }}" class="form-control" rows="10" cols="40">{{ f.value }}</textarea>
+					{% elif f.type == 'cross_object' %}
+						<select class="form-control" name="field--text--{{ id }}">
+							{% for o_id, o_title in f.object_items.items() %}
+								<option value="{{ o_id }}" {% if o_id == f.value -%}
+									selected="selected"
+								{%- endif %}>{{ o_title }}</option>
+							{% endfor %}
+						</select>
+					{% elif f.type == 'wysiwyg' %}
+						<textarea class="pages-wysiwyg" name="field--text--{{ id }}" rows="10" cols="40"></textarea>
 					{% endif %}
-
-				{% elif f.type == 'text' %}
-					<input type="text" name="field--text--{{ id }}" value="{{ f.value }}">
-				{% elif f.type == 'textarea' %}
-					<textarea name="field--text--{{ id }}" rows="10" cols="40">{{ f.value }}</textarea>
-				{% elif f.type == 'cross_object' %}
-					<select name="field--text--{{ id }}">
-						{% for o_id, o_title in f.object_items.items() %}
-							<option value="{{ o_id }}">{{ o_title }}</option>
-						{% endfor %}
-					</select>
-				{% elif f.type == 'wysiwyg' %}
-					<textarea class="pages-wysiwyg" name="field--text--{{ id }}" rows="10" cols="40">{{ f.value }}</textarea>
-				{% endif %}
-				<br />
-
+				</fieldset>
 			{% endfor %}
 		{% endif %}
 
-		<input type="submit">
+		<div class="submit_fixed">
+			<input type="submit">
+		</div>
 
 	</form>
+
 
 {% endblock %}
