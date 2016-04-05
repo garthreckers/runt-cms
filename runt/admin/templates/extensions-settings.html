@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+
+{% block inner_content %}
+
+	<form action="" method="POST">
+		{% if settings %}
+			{% for id, s in settings.items() %}
+
+				{{ s.display_name }}
+			
+				{% if s.type == 'text' %}
+					<input type="text" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
+				{% elif s.type == 'number' %}
+					<input type="number" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
+				{% endif %}
+
+				<br />
+
+			{% endfor %}
+
+			<input type="submit"></form>
+		{% endif %}
+	</form>
+
+{% endblock %}

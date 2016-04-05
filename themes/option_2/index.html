@@ -27,14 +27,14 @@ List of blogs
 
 </ul>
 
-<ul>
+<ol>
 	{% if reddit_api %}
 		{% for id, r in reddit_api.items() %}
 			<li><a href="{{ r.url }}">{{ r.title }}</a></li>
 		{% endfor %}
 	{% endif %}
 
-</ul>
+</ol>
 
 {{ runt_footer | safe }}
 

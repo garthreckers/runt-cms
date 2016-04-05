@@ -25,7 +25,7 @@ APP.register_blueprint(blueprints.admin, url_prefix='/admin')
 def ext_inject_footer():
 	"""
 	injects into the footer of the template
-	ie. scripts
+	ie. javascript
 	"""
 	return inject_footer()
 
@@ -33,7 +33,7 @@ def ext_inject_footer():
 def ext_inject_header():
 	"""
 	injects into the header of the template
-	ie. scripts, stylesheets, SEO tags, etc
+	ie. javascript, stylesheets, SEO tags, etc
 	"""
 	return inject_header()
 

@@ -1,5 +1,6 @@
 import os
 from .reddit_models import Reddit
+from runt.models import Settings
 from runt.base_extension import BaseExtension
 
 class Extension(BaseExtension):
@@ -7,7 +8,12 @@ class Extension(BaseExtension):
 	def inject_variables(self, **kwargs):
 		import praw
 		r = praw.Reddit(user_agent="Test Script")
-		submissions = r.get_subreddit('python').get_hot(limit=5)
+
+		sp = Settings().select().where(Settings.field == 'reddit_api--show_posts')
+		limit = sp.get().value if sp.exists() else 5
+
+
+		submissions = r.get_subreddit('python').get_hot(limit=int(limit))
 		
 		add_on = {}
 

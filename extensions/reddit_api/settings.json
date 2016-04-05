@@ -1,0 +1,10 @@
+{
+	"show_posts": {
+		"type": "number",
+		"display_name": "Number of Posts to Show"
+	},
+	"username": {
+		"type": "text",
+		"display_name": "Your Username"
+	}
+}
