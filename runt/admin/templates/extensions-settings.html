@@ -6,12 +6,12 @@
 		{% if settings %}
 			{% for id, s in settings.items() %}
 
-				{{ s.display_name }}
+				<label for="{{ ext_name + '--' + id }}">{{ s.display_name }}</label>
 			
 				{% if s.type == 'text' %}
-					<input type="text" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
+					<input type="text" class="form-control" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
 				{% elif s.type == 'number' %}
-					<input type="number" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
+					<input type="number" class="form-control" name="{{ ext_name + '--' + id }}" value="{{ s.value }}"></input>
 				{% endif %}
 
 				<br />

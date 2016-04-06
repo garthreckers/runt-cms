@@ -8,6 +8,7 @@
 					<th>Extension Name</th>
 					<th>Author</th>
 					<th>&nbsp;</th>
+					<th>&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,6 +32,11 @@
 									<a href="#" onclick="document.getElementById('ext_form_{{ count }}').submit(); return false;">Activate</a>
 								</form>
 										
+							{%- endif -%}
+						</td>
+						<td>
+							{%- if e.has_settings -%}
+								<a href="/admin/extensions/{{ name }}/settings"><span class="glyphicon glyphicon-cog"></span></a>
 							{%- endif -%}
 						</td>
 					</tr>
