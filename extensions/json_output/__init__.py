@@ -1,1 +1,1 @@
-from .json_output import Extension
+from .extension import Extension

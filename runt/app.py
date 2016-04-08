@@ -62,6 +62,7 @@ def admin_menu():
 	menu["Theme"] = "/admin/theme"
 	menu["Extensions"] = "/admin/extensions"
 	menu["Users"] = "/admin/users"
+	menu["Settings"] = "/admin/settings"
 
 	return dict(admin_menu=menu)
 

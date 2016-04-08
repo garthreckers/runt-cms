@@ -10,7 +10,7 @@ from runt.extensions import load_template
 class ThemeController():
 	def __init__(self):
 		self._theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
-
+		self._theme_dir = config.ROOT_DIR + '/themes/' + self._theme + '/'
 
 	def index(self):
 		content = self._theme_json_objects('index')
@@ -48,11 +48,27 @@ class ThemeController():
 
 		return '404'
 
+	def global_variables(self):
+		template_json = self._theme_dir + 'theme.json'
+
+		if os.path.exists(template_json):
+
+			_t_decode = None
+
+			with open(template_json, "r") as tj:
+			
+				_t_decode = json.loads(tj.read())
+
+			return {"global": _t_decode['globals']}
+
+		return False
+
+
 	def _theme_json_objects(self, template_name):
 
 		content = {}
 
-		template_json = config.ROOT_DIR + '/themes/' + self._theme + '/' + template_name + '.json'
+		template_json = self._theme_dir + template_name + '.json'
 		
 		if os.path.exists(template_json):
 			

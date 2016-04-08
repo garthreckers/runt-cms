@@ -1,5 +1,6 @@
 import os
 import json
+from peewee import *
 from ..models import Settings
 from runt.utils import noindex
 from ..admin.auth import login_checker
@@ -9,10 +10,33 @@ from config import ROOT_DIR
 class SettingsController():
 	def __init__(self):
 		pass
+
 	#@login_check
 	@noindex
 	def index(self):
-		return render_template('base.html', pageheader="Main Settings Page")
+		runt_settings = {
+			"site_name": {
+				"type": "text",
+				"name": "Site Name"
+			}
+		}
+
+		for r in runt_settings:
+			if request.method == 'POST':
+				if request.form[r]:
+					if Settings().select().where(Settings.field == r).exists():
+						(Settings()
+							.update(value=request.form[r])
+							.where(Settings.field == r)
+							.execute())
+					else:
+						Settings().create(field=r, value=request.form[r])
+
+			if Settings().select().where(Settings.field == r).exists():
+				_v = Settings().select(Settings.value).where(Settings.field == r).get().value
+				runt_settings[r]['value'] = _v
+
+		return render_template('settings.html', pageheader="Settings", runt_settings=runt_settings)
 
 	@noindex
 	def themes(self):

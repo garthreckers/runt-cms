@@ -1,1 +1,1 @@
-from .template_inject import Extension
+from .extension import Extension

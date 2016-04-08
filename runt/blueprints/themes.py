@@ -30,3 +30,7 @@ def theme_pages(slug):
 @themes.route('/<obj>/<slug>', strict_slashes=False)
 def theme_object_pages(obj, slug):
 	return t.object_pages(obj, slug)
+
+@themes.context_processor
+def theme_global_vars():	
+	return t.global_variables() or {}

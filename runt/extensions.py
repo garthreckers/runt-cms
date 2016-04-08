@@ -6,6 +6,7 @@ import sys
 import pip
 import importlib
 from extensions import *
+from .extensions_install import install_ext
 from peewee import *
 from .models import Extensions as Ext_Model
 from flask import render_template
@@ -83,8 +84,3 @@ def inject_header():
 		inject = inject + e_return
 		
 	return dict(runt_header=inject)
-
-
-
-
-

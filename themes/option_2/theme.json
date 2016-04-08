@@ -4,7 +4,10 @@
 		"author": "Garth Reckers",
 		"copyright": "© Garth Reckers 2016"
 	},
-	"globals": "",
+	"globals": {
+		"test_global": "This is a test of a global",
+		"major_variable": "Something important"
+	},
 	"image_sizes": {
 		"large": {
 			"crop": "soft",

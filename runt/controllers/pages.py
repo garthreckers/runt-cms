@@ -1,6 +1,6 @@
 import config, os, json
 import datetime
-from PIL import Image, ImageOps
+from ..images import Images
 from flask import render_template, request, redirect, url_for
 from runt.models import *
 from runt.utils import noindex
@@ -78,7 +78,7 @@ class PageController():
 
 								file.save(os.path.join(month_path, filename))
 
-								self._image_processing(month_path, filename)
+								Images().upload_processing(month_path, filename)
 
 								field_out = relative_path + filename
 
@@ -118,13 +118,81 @@ class PageController():
 				if not request.form['content']:
 					err_return['content'] = "Content is required"
 				if not err_return:
-					p_update = Pages.update(title=request.form['title'], slug=request.form['slug'], \
+					p_update = Pages().update(title=request.form['title'], slug=request.form['slug'], \
 						content=request.form['content']).where(Pages.id == id).execute()
 					values = {}
 					values['title'] = request.form['title']
 					values['slug'] = request.form['slug']
 					values['content'] = request.form['content']
 					values['id'] = id
+
+					for name, v in request.form.items():
+						if name.startswith("field--"):
+							name_split = name.split("--")
+							field_type = name_split[1]
+							field_id = name_split[2]
+
+							if v and Fields().select().where(
+										(Fields.page_id == id) & (Fields.field_id == field_id)
+									).exists():
+								f_update = Fields().update(field_value=v).where(
+												(Fields.page_id == id) & (Fields.field_id == field_id)
+											).execute()
+							else:
+								f = Fields(page_id=id, field_id=field_id, field_value=v)
+								f.save()
+
+
+					n = datetime.date.today()
+					year_dir = str(n.year)
+					year_path = config.RUNT_UPLOADS + year_dir
+					month_dir = '/' + str(format(n.month, '02d'))
+					month_path = year_path + month_dir
+					relative_path = '/uploads/' + year_dir + month_dir + '/'
+
+					for name, file in request.files.items():
+						if name.startswith("field--"):
+							name_split = name.split("--")
+							field_type = name_split[1]
+							field_id = name_split[2]
+							
+							if field_type == 'photo':
+
+								if file and file.filename.endswith(('.jpg','.png')):
+									
+									if not os.path.exists(year_path):
+										os.mkdir(year_path)
+
+									if not os.path.exists(month_path):
+										os.mkdir(month_path)
+
+									filename = secure_filename(file.filename)
+
+									file.save(os.path.join(month_path, filename))
+
+									Images().upload_processing(month_path, filename)
+
+									field_out = relative_path + filename
+
+								else:
+
+									field_out = file
+									
+								if Fields().select().where(
+										(Fields.page_id == id) & (Fields.field_id == field_id)
+									).exists():
+
+									f_update = Fields().update(field_value=field_out).where(
+												(Fields.page_id == id) & (Fields.field_id == field_id)
+											).execute()
+
+								else:
+
+									f = Fields(page_id=id, field_id=field_id,\
+												field_value=field_out)
+									f.save()
+
+					return redirect(url_for('admin.edit_pages', id=id))
 
 			object_type = p.get().object_type
 			fields = self._object_fields(object_type) or None
@@ -177,63 +245,5 @@ class PageController():
 
 		return False
 
-	def _image_processing(self, path, filename):
-		"""
-		Crops images based on theme.json's image_sizes object. The values in 
-		theme.json will override the defaults if they are provided.
-		"""
-
-		image_sizes = {
-			"large": {
-				"crop": "soft",
-				"width": "1000",
-				"height": "1000"
-			},
-			"medium": {
-				"crop": "soft",
-				"width": "500",
-				"height": "500"
-			},
-			"small": {
-				"crop": "hard",
-				"width": "200",
-				"height": "200"
-			}
-		}
-
-		theme_json_path = config.ROOT_DIR + '/themes/' + self._theme + '/theme.json'
-
-		with open(theme_json_path, 'r') as _tj:
-			_t_decode = json.loads(_tj.read())
-			image_sizes.update(_t_decode['image_sizes'])
-
-		print(image_sizes)
-
-		file, file_ext = os.path.splitext(filename)
-
-		for _is_id, _is_details in image_sizes.items():
-
-			size = (int(_is_details['width']), int(_is_details['height']))
-
-			im = Image.open(os.path.join(path, filename))
-			image_ratio = im.size[0] / im.size[1]
-			ratio = size[0] / size[1]
-
-			if _is_details['crop'] == 'hard':
-				if ratio > image_ratio:
-					im = im.resize((size[0], size[0] * im.size[1] // im.size[0]), Image.ANTIALIAS)
-					box = (0, ((im.size[1] - size[1]) // 2), im.size[0], (im.size[1] + size[1]) // 2)
-					im = im.crop(box)
-				elif ratio < image_ratio:
-					im = im.resize(((size[1] * im.size[0]) // im.size[1], size[0]), Image.ANTIALIAS)
-					box = ((im.size[0] - size[0]) // 2, 0, (im.size[0] + size[0]) // 2, im.size[1])
-					im = im.crop(box)
-				else:
-					im = im.resize(size)
-			elif _is_details['crop'] == 'soft':	
-				im.thumbnail(size)
-
-			im.save(path + '/' + file + '.' + _is_id + '.' + file_ext, quality=100, subsampling=0)
-
-		return
+	
 

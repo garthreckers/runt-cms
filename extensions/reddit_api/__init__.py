@@ -1,1 +1,1 @@
-from .reddit_api import Extension
+from .extension import Extension

@@ -65,6 +65,10 @@ Settings
 def theme():
 	return s.themes()
 
+@admin.route("/settings", methods=['GET', 'POST'], strict_slashes=False)
+def settings():
+	return s.index()
+
 
 
 """

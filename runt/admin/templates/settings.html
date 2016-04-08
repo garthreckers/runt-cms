@@ -1,0 +1,22 @@
+{% import 'macros/settings.html' as settings_macro %}
+{% extends "main.html" %}
+
+{% block inner_content %}
+
+	<form action="" method="POST">
+		{% for id, s in runt_settings.items() %}
+			<fieldset class="form-group">
+				<label for="{{ id }}">{{ s.name or id }}</label>
+
+				{{ settings_macro.input(id, s) }}
+				
+			</fieldset>
+
+
+
+		{% endfor %}
+
+		<input type="submit" value="Submit" />
+	</form>
+
+{% endblock %}

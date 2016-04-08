@@ -1,3 +1,4 @@
+{% import 'macros/forms.html' as form %}
 {% extends "main.html" %}
 
 {% block inner_content %}
@@ -28,21 +29,8 @@
 				<fieldset class="form-group">
 					<label for="field--photo--{{ id }}">{{ f.name or id }}</label>
 
-					{%- if f.type == 'photo' %}
-						<input type="file" class="form-control-file" name="field--photo--{{ id }}" accept="image/*">
-					{% elif f.type == 'text' %}
-						<input type="text" class="form-control" name="field--text--{{ id }}">
-					{% elif f.type == 'textarea' %}
-						<textarea name="field--text--{{ id }}" class="form-control" rows="10" cols="40"></textarea>
-					{% elif f.type == 'cross_object' %}
-						<select class="form-control" name="field--text--{{ id }}">
-							{% for o_id, o_title in f.object_items.items() %}
-								<option value="{{ o_id }}">{{ o_title }}</option>
-							{% endfor %}
-						</select>
-					{% elif f.type == 'wysiwyg' %}
-						<textarea class="pages-wysiwyg" name="field--text--{{ id }}" rows="10" cols="40"></textarea>
-					{% endif %}
+					{{ form.object_fields(id, f) }}
+					
 				</fieldset>
 			{% endfor %}
 		{% endif %}
