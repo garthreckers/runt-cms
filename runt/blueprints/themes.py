@@ -1,7 +1,7 @@
 import config
 from runt.controllers import *
 from flask import Blueprint
-from runt.models import Settings
+from ..models import Settings
 
 
 _theme = Settings.select(Settings.value).where(Settings.field == 'theme').get().value
@@ -16,7 +16,6 @@ themes = Blueprint('themes', __name__,
 """
 Themes Stuff
 """
-
 t = ThemeController()
 
 @themes.route('/')

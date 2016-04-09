@@ -63,12 +63,37 @@
 	</div>
 
 	<div class="text-right">
-		<a href="/admin/extensions/install"><span class="glyphicon glyphicon-refresh"></span> Refresh List of Plugins</a>
+		<a href="javascript:void(0);" data-toggle="modal" data-target="#extensions-refresh"><span class="glyphicon glyphicon-refresh"></span> Refresh List of Extensions</a>
 	</div>
 
 	{% if request.method == 'POST' %}
 		<iframe src="/admin/restart_app" width="0" height="0" style="opacity: 0;" id="restart_app"></iframe>
 	{% endif %}
 
+
+{% endblock %}
+
+{% block footer %}
+
+<div id="extensions-refresh" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="modal-content">
+
+			<div class="modal-body">
+				<h3>Warning!</h3>
+				<p>This button will restart your Python app. While your site will only be down for a few seconds during the restart, there is a chance that after clicking this link you will get an error page. If you refresh that error page, your site should reload as it normally would. If it does not after about a minute, you will need to restart your Python app manually.</p>
+
+				<p><a href="/admin/extensions/install"><span class="glyphicon glyphicon-refresh"> Refresh Extensions Now</a></p>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+
+	</div>
+</div>
 
 {% endblock %}

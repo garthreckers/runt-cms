@@ -49,7 +49,7 @@ class Images():
 			"""
 			im = Image.open(os.path.join(path, filename))
 
-			print(im)
+			print(_is_details)
 
 			size = (int(_is_details['width']), int(_is_details['height']))
 			image_ratio = im.size[0] / im.size[1]
@@ -65,10 +65,18 @@ class Images():
 					box = ((im.size[0] - size[0]) // 2, 0, (im.size[0] + size[0]) // 2, im.size[1])
 					im = im.crop(box)
 				else:
-					im = im.resize(size)
+					im = im.resize(size, Image.ANTIALIAS)
 			elif _is_details['crop'] == 'soft':	
-				im.thumbnail(size)
+				im.thumbnail(size, Image.ANTIALIAS)
 
 			im.save(path + '/' + file + '.' + _is_id + file_ext, quality=100, subsampling=0)
 
 		return
+
+	def get_image(self, url, size):
+		
+		file, file_ext = os.path.splitext(url)
+
+		final_image = file + '.' + size + file_ext
+
+		return final_image

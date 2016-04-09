@@ -4,6 +4,8 @@
 
 <title>{% block title %}Runt CMS{% endblock %}</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static', filename='css/admin.css')}}">
+<script type="text/javascript" href="{{ url_for('admin.static', filename='js/jquery-1.12.3.min.js')}}"></script>
+<script type="text/javascript" href="{{ url_for('admin.static', filename='js/bootstrap.min.js')}}"></script>
 
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
@@ -26,11 +28,14 @@
 <meta name="theme-color" content="#E7E7E7">
 
 <meta name="robot" content="none">
+{% block head %}{% endblock %}
 </head>
 <body>
 
 {% block content %}{% endblock %}
 
+
+{% block footer %}{% endblock %}
 <script type="text/javascript">
 function stringToSlug(s)
 {
@@ -44,22 +49,24 @@ function stringToSlug(s)
 var formTitle = document.getElementById('add-page-title');
 var formSlug = document.getElementById('add-page-slug');
 
-formTitle.onblur = function() {
-  if(formSlug.value == '') {
-  	formSlug.value = stringToSlug(formTitle.value);	
-  }
+if(formTitle != null) {
+	formTitle.onblur = function() {
+		if(formSlug.value == '') {
+			formSlug.value = stringToSlug(formTitle.value);	
+		}
+	}
 }
 
 	
 tinymce.init({
-  selector: 'textarea.pages-wysiwyg',
-  height: 500,
-  plugins: [
-    'advlist autolink lists link image charmap print preview anchor',
-    'searchreplace visualblocks code fullscreen',
-    'insertdatetime media table contextmenu paste code'
-  ],
-  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
+	selector: 'textarea.pages-wysiwyg',
+	height: 500,
+	plugins: [
+		'advlist autolink lists link image charmap print preview anchor',
+		'searchreplace visualblocks code fullscreen',
+		'insertdatetime media table contextmenu paste code'
+	],
+	toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
 });
 
 </script>

@@ -13,12 +13,19 @@ from .models import Settings
 from .extensions import inject_footer, inject_header
 from .admin.install import runt_installed
 from . import blueprints
+from .images import Images
 
 APP = Flask(__name__, static_url_path='/overriding-static')
 
 APP.register_blueprint(blueprints.extensions)
 APP.register_blueprint(blueprints.themes)
 APP.register_blueprint(blueprints.admin, url_prefix='/admin')
+
+imgs = Images()
+def get_image_size(url, size):
+	return imgs.get_image(url, size)
+
+APP.jinja_env.globals.update(get_image_size=get_image_size)
 
 
 @APP.context_processor
