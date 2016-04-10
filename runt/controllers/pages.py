@@ -47,7 +47,7 @@ class PageController():
 						field_id = name_split[2]
 
 						if v:
-							f = Fields(page_id=p.id, field_id=field_id, field_value=v)
+							f = Fields(page_id=p.id, field_id=field_id, field_value=v, field_type=field_type)
 							f.save()
 
 
@@ -88,7 +88,7 @@ class PageController():
 								
 						
 							f = Fields(page_id=p.id, field_id=field_id,\
-										field_value=field_out)
+										field_value=field_out, field_type=field_type)
 							f.save()
 
 				return redirect(url_for('admin.edit_pages', id=p.id))
@@ -139,7 +139,7 @@ class PageController():
 												(Fields.page_id == id) & (Fields.field_id == field_id)
 											).execute()
 							else:
-								f = Fields(page_id=id, field_id=field_id, field_value=v)
+								f = Fields(page_id=id, field_id=field_id, field_value=v, field_type=field_type)
 								f.save()
 
 
@@ -189,7 +189,7 @@ class PageController():
 								else:
 
 									f = Fields(page_id=id, field_id=field_id,\
-												field_value=field_out)
+												field_value=field_out, field_type=field_type)
 									f.save()
 
 					return redirect(url_for('admin.edit_pages', id=id))
@@ -200,7 +200,8 @@ class PageController():
 			allf = Fields.select().where(Fields.page_id == id)
 			
 			for a in allf:
-				fields[a.field_id]['value'] = a.field_value
+				if a.field_value:
+					fields[a.field_id]['value'] = a.field_value
 
 
 			return render_template("edit-page.html", values=values,\
@@ -216,7 +217,7 @@ class PageController():
 		objects_json = config.ROOT_DIR + '/themes/' + self._theme + '/objects.json'
 		
 		if os.path.exists(objects_json):
-			
+
 			with open(objects_json, "r") as oj:
 			
 				""" BROKEN FOR PAGES """

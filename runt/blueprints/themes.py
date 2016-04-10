@@ -18,6 +18,11 @@ Themes Stuff
 """
 t = ThemeController()
 
+@themes.app_template_global('field_value')
+def field_value(id, field_id):
+	return t.get_field(id, field_id)
+
+
 @themes.route('/')
 def theme_index():
 	return t.index()

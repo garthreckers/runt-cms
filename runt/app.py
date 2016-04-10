@@ -9,7 +9,7 @@ from datetime import timedelta
 import config
 from flask import Flask, send_from_directory, redirect,\
 					url_for
-from .models import Settings
+from .models import *
 from .extensions import inject_footer, inject_header
 from .admin.install import runt_installed
 from . import blueprints

@@ -5,8 +5,17 @@
 </head>
 <body>
 <small>page-blog.html file</small>
+
 <h1>{{ content.object_type | title }}: {{ content.title }}</h1>
+
 <p>{{ content.content | safe }}</p>
+
+{% set featured_image = field_value(content.id, 'featured_photo') %}
+{% if featured_image %}
+	
+	<img src="{{ get_image_size(featured_image, 'medium') }}" />
+
+{% endif %}
 
 
 </body>

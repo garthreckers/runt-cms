@@ -6,6 +6,7 @@ from playhouse import shortcuts
 from runt.models import *
 from flask import send_from_directory, redirect
 from runt.extensions import load_template
+from ..models import Fields
 
 class ThemeController():
 	def __init__(self):
@@ -47,6 +48,20 @@ class ThemeController():
 				return load_template(tn, content=content)
 
 		return '404'
+
+	def get_field(self, id, field_id):
+
+		fields = Fields().select().where((Fields.page_id == id) & (Fields.field_id == field_id))
+
+		if fields.exists():
+			field_value = ""
+			if fields.get().field_type == 'photo':
+				field_value += 'http://localhost:5000'
+			field_value += fields.get().field_value
+			return field_value
+
+		return False
+
 
 	def global_variables(self):
 		template_json = self._theme_dir + 'theme.json'

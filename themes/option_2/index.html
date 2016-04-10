@@ -24,7 +24,7 @@ List of pages
 List of blogs
 <ul>
 	{% for b in content.blog %}
-		<li>{{ b.title }}</li>
+		<li><a href="/blog/{{ b.slug }}">{{ b.title }}</a></li>
 	{% endfor %}
 
 </ul>
@@ -41,7 +41,7 @@ List of blogs
 {{ runt_footer | safe }}
 
 <img src="{{ get_image_size('http://localhost:5000/uploads/2016/04/Nepal_ATTA-6547.jpg', 'small') }}" width="200" />
-<img src="http://localhost:5000/uploads/2016/04/Nepal_ATTA-6547.png" width="200" />
+
 
 
 </body>

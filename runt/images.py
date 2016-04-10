@@ -27,11 +27,14 @@ class Images():
 				"height": "200"
 			}
 		}
+
 		theme_json_path = config.ROOT_DIR + '/themes/' + self.theme + '/theme.json'
 
-		with open(theme_json_path, 'r') as _tj:
-			_t_decode = json.loads(_tj.read())
-			_image_sizes.update(_t_decode['image_sizes'])
+		if os.path.exists(theme_json_path):
+			with open(theme_json_path, 'r') as _tj:
+				_t_decode = json.loads(_tj.read())
+				if 'image_sizes' in _t_decode:
+					_image_sizes.update(_t_decode['image_sizes'])
 
 		return _image_sizes
 
