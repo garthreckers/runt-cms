@@ -2,6 +2,7 @@ from peewee import *
 from ..admin.auth import login_checker
 from runt.utils import noindex
 from ..models import Users
+from ..mail import RuntMail
 from flask import render_template, request,\
 					redirect, url_for
 
@@ -63,7 +64,8 @@ class UserController():
 			if not err_return:
 				p_word = u.hash_password(password)
 				created = u.create(username=uname, password=p_word, email=email, level=level)
-				if created: 
+				if created:
+					RuntMail().new_user(email, uname)
 					return redirect(url_for('admin_users_page'))
 				
 

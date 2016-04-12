@@ -2,7 +2,8 @@
 Simple functions for installation
 """
 from ..models.base_model import mysql_db # Update later 
-from runt.models import *
+from ..models import *
+from ..mail import RuntMail
 
 def runt_installed():
 	"""
@@ -23,5 +24,7 @@ def install_runt(username, email, password, url):
 	hash_pass = u.hash_password(password)
 	u.create(email=email, username=username, password=hash_pass, level='admin')
 	
+	RuntMail().new_user(email, username)
+
 	s = Settings()
 	s.create(field='homepage', value=url)

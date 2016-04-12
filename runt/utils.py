@@ -15,3 +15,4 @@ def add_response_headers(headers={}):
 
 def noindex(func):
 	return add_response_headers({"X-Robot-Tag": "noindex nofollow"})(func)
+
