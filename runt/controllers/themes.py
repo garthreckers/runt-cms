@@ -56,7 +56,8 @@ class ThemeController():
 		if fields.exists():
 			field_value = ""
 			if fields.get().field_type == 'photo':
-				field_value += 'http://localhost:5000'
+				home_url = Settings.select(Settings.value).where(Settings.field == 'homepage').get().value
+				field_value += home_url
 			field_value += fields.get().field_value
 			return field_value
 

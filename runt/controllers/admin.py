@@ -71,8 +71,19 @@ class AdminController():
 				if request.form['password'] != request.form['repeat-password']:
 					err_return['err_password'] = "Passwords must match"
 
+			url = request.form['home-url']
+			if not url:
+				err_return['err_home-url'] = "Homepage URL field is required"
+			else:
+				values['home-url'] = url
+				if 'http://' not in url and 'https://' not in url:
+					print('test')
+					url = 'http://' + url
+
+
 			if not err_return:
-				install_runt(username=request.form['uname'], email=request.form['email'], password=request.form['password'])
+				install_runt(username=request.form['uname'], email=request.form['email'],\
+								password=request.form['password'], url=url)
 				return redirect(url_for('admin.index'))
 
 		return render_template('install.html', error=err_return, values=values)

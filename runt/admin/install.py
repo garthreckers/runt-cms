@@ -14,7 +14,7 @@ def runt_installed():
 
 	return False
 
-def install_runt(username, email, password):
+def install_runt(username, email, password, url):
 	"""
 	This is the installation function to create the first
 	user and install the tables
@@ -23,3 +23,5 @@ def install_runt(username, email, password):
 	hash_pass = u.hash_password(password)
 	u.create(email=email, username=username, password=hash_pass, level='admin')
 	
+	s = Settings()
+	s.create(field='homepage', value=url)

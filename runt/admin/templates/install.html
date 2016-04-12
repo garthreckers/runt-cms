@@ -12,12 +12,13 @@
 				<h2>Runt CMS Install</h2>
 				<strong>Create Admin login</strong><br />
 				{% if error.err_email %}{{ error.err_email }}<br />{% endif %}
-				Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}"><br />
+				Email: <input type="email" name="email" value="{% if values.email %}{{ values.email }}{% endif %}" required><br />
 				{% if error.err_uname %}{{ error.err_uname }}<br />{% endif %}
-				Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}"><br />
+				Username: <input type="text" name="uname" value="{% if values.uname %}{{ values.uname }}{% endif %}" required><br />
 				{% if error.err_password %}{{ error.err_password }}<br />{% endif %}
-				Password: <input type="password" name="password"><br />
-				Repeat Password: <input type="password" name="repeat-password"><br />
+				Password: <input type="password" name="password" required><br />
+				Repeat Password: <input type="password" name="repeat-password" required><br />
+				Homepage URL: <input type="url" name="home-url" required><br />
 				<input type="submit">
 
 			</form>

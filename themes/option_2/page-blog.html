@@ -17,6 +17,12 @@
 
 {% endif %}
 
+{% set detailed_desc = field_value(content.id, 'detailed_desc') %}
+{% if detailed_desc %}
+
+	{{ detailed_desc | safe }}
+
+{% endif %}
 
 </body>
 </html>
