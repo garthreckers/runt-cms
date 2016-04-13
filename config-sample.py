@@ -1,5 +1,7 @@
 import os
 
+PRODUCTION = True
+
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 RUNT_ROOT = ROOT_DIR + '/runt'
 RUNT_UPLOADS = ROOT_DIR + '/uploads/'

@@ -1,26 +1,25 @@
 import smtplib
+import config
+from email.mime.text import MIMEText
 
 class RuntMail():
 	def __init__(self):
 		pass
 
 	def new_user(self, email, username):
-		message = """From: <runt@localhost>
-			To: <""" + email + """>
-			MIME-Version: 1.0
-			Content-type: text/html
-			Subject: SMTP HTML e-mail test
+		if not config.PRODUCTION: return
 
-			This is an e-mail message to be sent in HTML format
+		msg = MIMEText("""\
+				A new user has been created with the username {uname} and the email {email}
+			""".format(uname=username, email=email))
 
-			<b>This is HTML message.</b>
-			<h1>This is headline.</h1>
-			"""
+		msg['Subject'] = 'Your account has been created'
+		msg['From'] = config.TEMP_EMAIL
+		msg['To'] = email
 
-		try:
-			smtpObj = smtplib.SMTP('localhost')
-			smtpObj.sendmail("runt@localhost", email, message)         
-			print("Successfully sent email")
-		except smtplib.SMTPException:
-			print("Error: unable to send email")
+		# Send the message via our own SMTP server, but don't include the
+		# envelope header.
+		s = smtplib.SMTP('localhost')
+		s.sendmail(me, [you], msg.as_string())
+		s.quit()
 
