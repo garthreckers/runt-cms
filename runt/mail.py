@@ -17,9 +17,7 @@ class RuntMail():
 		msg['From'] = config.TEMP_EMAIL
 		msg['To'] = email
 
-		# Send the message via our own SMTP server, but don't include the
-		# envelope header.
 		s = smtplib.SMTP('localhost')
-		s.sendmail(me, [you], msg.as_string())
+		s.sendmail(msg['From'], msg['To'], msg.as_string())
 		s.quit()
 
