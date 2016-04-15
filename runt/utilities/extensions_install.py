@@ -2,7 +2,7 @@ import os
 import sys
 import config
 import importlib
-from .models import Extensions
+from ..models import Extensions
 
 EXT_PATH = config.ROOT_DIR + '/extensions'
 EXT_FILES = os.listdir(EXT_PATH)

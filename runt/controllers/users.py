@@ -1,8 +1,7 @@
 from peewee import *
-from ..admin.auth import login_checker
-from runt.utils import noindex
+from ..utilities.decorators import noindex, login_checker
 from ..models import Users
-from ..mail import RuntMail
+from ..utilities.mail import RuntMail
 from flask import render_template, request,\
 					redirect, url_for
 
@@ -66,7 +65,7 @@ class UserController():
 				created = u.create(username=uname, password=p_word, email=email, level=level)
 				if created:
 					RuntMail().new_user(email, uname)
-					return redirect(url_for('admin_users_page'))
+					return redirect(url_for('admin.users_edit', uname=uname))
 				
 
 		return render_template('add-user.html', pageheader="Add User", error=err_return, values=values)
@@ -88,7 +87,11 @@ class UserController():
 			if request.form['delete'] == 'DELETE':
 				Users.delete().where(Users.username == uname).execute()
 
-				return redirect(url_for('admin_users_page'))
+				return redirect(url_for('admin.users_page'))
 
 		return render_template('delete-user.html', pageheader="Delete User", error=err_return)
 
+	#@login_checker
+	@noindex
+	def edit(self, uname):
+		return "Edit User Page... to come later...."

@@ -1,7 +1,7 @@
 import os
 from .reddit_models import Reddit
 from runt.models import Settings
-from runt.base_extension import BaseExtension
+from runt.utilities.base_extension import BaseExtension
 
 class Extension(BaseExtension):
 		

@@ -1,10 +1,9 @@
 import os
 import json
 import config
-from ..admin.auth import login_checker, check_username, auth
-from runt.utils import noindex
-from ..admin.install import runt_installed, install_runt
 from flask import render_template, request, redirect, url_for
+from ..utilities.decorators import noindex
+from ..admin.install import runt_installed, install_runt
 from ..models import Settings, Extensions
 
 class ExtensionController():

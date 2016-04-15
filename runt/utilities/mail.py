@@ -10,7 +10,7 @@ class RuntMail():
 		if not config.PRODUCTION: return
 
 		msg = MIMEText("""\
-				A new user has been created with the username {uname} and the email {email}
+			A new user has been created with the username {uname} and the email {email}
 			""".format(uname=username, email=email))
 
 		msg['Subject'] = 'Your account has been created'

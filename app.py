@@ -1,7 +1,7 @@
 """
 Start up Flask/Runt
 """
-from runt import *
+from runt import runt
 
 if __name__ == "__main__":
-	APP.run('0.0.0.0')
+	runt.run('0.0.0.0')

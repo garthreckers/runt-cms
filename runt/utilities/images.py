@@ -1,7 +1,7 @@
 import os
 import json
 import config
-from .models import Settings
+from ..models import Settings
 from PIL import Image, ImageOps
 
 class Images():

@@ -1,11 +1,11 @@
-from ..admin.auth import login_checker, check_username, auth
-from runt.utils import noindex
-from ..admin.install import runt_installed, install_runt
 from flask import render_template, request, redirect, url_for
+from ..admin.auth import Auth
+from ..utilities.decorators import noindex, login_checker
+from ..admin.install import runt_installed, install_runt
 
 class AdminController():
 	def __init__(self):
-		pass
+		self.a = Auth()
 
 	#@login_checker
 	@noindex
@@ -22,8 +22,8 @@ class AdminController():
 		err_return = None
 		if request.method == 'POST':
 			if request.form['uname']:
-				if check_username(request.form['uname']):
-					if auth(username=request.form['uname'], password=request.form['password']):
+				if a.check_username(request.form['uname']):
+					if a.login(username=request.form['uname'], password=request.form['password']):
 						return redirect(url_for('admin.index'))
 					
 					err_return = "That username and password combination "

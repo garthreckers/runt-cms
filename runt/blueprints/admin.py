@@ -2,8 +2,8 @@ import os, json
 import config
 from collections import OrderedDict
 from flask import Blueprint
-from runt.controllers import *
-from runt.models import Settings
+from ..controllers import *
+from ..models import Settings
 
 admin_static = config.RUNT_ROOT + '/admin/templates/static'
 
@@ -57,6 +57,9 @@ def users_add():
 def users_delete(uname):
 	return u.delete(uname)
 
+@admin.route("/users/edit/<uname>", methods=['GET', 'POST'], strict_slashes=False)
+def users_edit(uname):
+	return u.edit(uname)
 
 """
 Settings

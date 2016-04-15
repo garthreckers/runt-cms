@@ -1,5 +1,5 @@
 import os
-from runt.base_extension import BaseExtension
+from runt.utilities.base_extension import BaseExtension
 from flask import request, jsonify
 
 class Extension(BaseExtension):

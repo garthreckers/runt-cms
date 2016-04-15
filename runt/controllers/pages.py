@@ -1,11 +1,11 @@
 import config, os, json
 import datetime
-from ..images import Images
 from flask import render_template, request, redirect, url_for
-from runt.models import *
-from runt.utils import noindex
 from playhouse import shortcuts
 from werkzeug import secure_filename
+from ..utilities.images import Images
+from ..models import *
+from ..utilities.decorators import noindex
 
 class PageController():
 	def __init__(self):

@@ -4,8 +4,8 @@ import sys
 import config
 from flask import Blueprint, send_from_directory,\
 					request, render_template, redirect, url_for
-from runt.models import Settings
-from runt.extensions import inject_header, inject_footer,\
+from ..models import Settings
+from ..utilities.extensions import inject_header, inject_footer,\
 								module_install_script
 from ..controllers import ExtensionController
 

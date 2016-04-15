@@ -1,5 +1,5 @@
 import config
-from runt.controllers import *
+from ..controllers import *
 from flask import Blueprint
 from ..models import Settings
 

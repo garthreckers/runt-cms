@@ -1,11 +1,10 @@
 import os
 import json
 from peewee import *
-from ..models import Settings
-from runt.utils import noindex
-from ..admin.auth import login_checker
 from flask import render_template, request
 from config import ROOT_DIR
+from ..models import Settings
+from ..utilities.decorators import noindex, login_checker
 
 class SettingsController():
 	def __init__(self):

@@ -1,2 +1,2 @@
-from .app import APP
+from .main import runt
 		

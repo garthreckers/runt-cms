@@ -1,11 +1,11 @@
 import os, json
 import config
 from peewee import *
-from runt.utils import noindex
 from playhouse import shortcuts
 from runt.models import *
 from flask import send_from_directory, redirect
-from runt.extensions import load_template
+from ..utilities.decorators import noindex
+from ..utilities.extensions import load_template
 from ..models import Fields
 
 class ThemeController():

@@ -3,7 +3,7 @@ Simple functions for installation
 """
 from ..models.base_model import mysql_db # Update later 
 from ..models import *
-from ..mail import RuntMail
+from ..utilities.mail import RuntMail
 
 def runt_installed():
 	"""
