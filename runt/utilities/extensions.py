@@ -20,7 +20,7 @@ def module_install_script(ext):
 	_e.install_scripts()
 
 	_e_model = _e.install_models()
-	
+
 	if _e_model:
 		_e_list = []
 		for _e_m in _e_model:
@@ -47,7 +47,7 @@ def load_template(template, **kwargs):
 
 	for e in active_e:
 		e_mod = getattr(sys.modules[__name__], e.name)
-		return_kwargs = e_mod.Extension().inject_variables(**kwargs)
+		return_kwargs = e_mod.Extension().inject_variables(**return_kwargs)
 
 	""" loop through before_template_load's and returns if need be """
 	for e in active_e:

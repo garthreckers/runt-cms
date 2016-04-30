@@ -5,6 +5,7 @@ from flask import render_template, request, redirect, url_for
 from ..utilities.decorators import noindex
 from ..admin.install import runt_installed, install_runt
 from ..models import Settings, Extensions
+from ..extensions import module_install_script
 
 class ExtensionController():
 	def __init__(self):

@@ -17,6 +17,10 @@ class SettingsController():
 			"site_name": {
 				"type": "text",
 				"name": "Site Name"
+			},
+			"homepage": {
+				"type": "url",
+				"name": "Homepage URL"
 			}
 		}
 
