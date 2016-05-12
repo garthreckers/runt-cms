@@ -1,0 +1,37 @@
+{% extends 'base-template.html' %}
+
+{% block main_content %}
+
+<section class="post">
+
+	<hgroup>
+		<h1>{{ content.title }}</h1>
+	</hgroup>
+
+	<div class="imgwrapfix">
+		<div class="imgwrap">
+			<div class="imgcontainer">
+				<img src="{{ get_image_size(field_value(content.id, 'featured_photo'), 'home-roto') }}" />
+			</div>
+		</div>
+	</div>
+
+	<div class="content-left">
+		<article>{{ content.content | safe }}</article>
+	</div>
+
+	<div class="content-right">
+
+		<aside>
+			<p>Location: {{ field_value(content.id, 'location') }}</p>
+		</aside>
+
+		<aside>
+			<p>When: {{ field_value(content.id, 'datetaken') }}</p>
+		</aside>
+			
+	</div>
+
+</section>
+
+{% endblock %}

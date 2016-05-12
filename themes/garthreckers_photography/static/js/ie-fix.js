@@ -1,0 +1,1 @@
+$(document).ready(function(){$('.gallery-holder:nth-child(3n+2)').css('margin','0 30px 0 31px');});

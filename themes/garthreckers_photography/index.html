@@ -1,0 +1,34 @@
+{% extends 'base-template.html' %}
+
+{% block main_content %}
+
+    <section>
+    	
+	<div class="slider">
+		{% for p in content.photos %}
+			<div class="slider-inner">
+				<div class="imgBox">
+					<a href="#">
+						<img src="{{ get_image_size(field_value(p.id, 'featured_photo'), 'home-roto') }}" height="400" width="984" />
+						<aside class="imginfo">
+							<h1>{{ p.title }}</h1>
+							<p>{{ p.content | striptags | truncate(255) }}</p>
+						</aside>
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<article>
+		<p>My love for photography started in high school in a photography class. Since freshman year, I had put photography as my lower priority for electives, but after a trip to Seattle and using my families cheap camera, I started getting interested. The next year I put it as my top priority and it ended up becoming my top priority for every semester after that. The class was a black and white film class that really helped me learn the basics and learn to take photos without the distraction of color. I still love black and white film to this day, but with my medium format camera breaking and no access to a darkroom, digital is all I can manage now.</p>
+
+		<p>Photography really jumped from a minor hobby to a true passion in 2008 when I was offered the chance to go to Norway with the Adventure Travel Trade Association to take photographs and video for their World Summit. When I realized how beautiful places outside of the US (even off the west coast since I haven’t ventured far from here) can be, I caught the travel bug and wanted to go everywhere. Money has killed this travel bug, but the dream is still there, especially with a wife who wants to travel just as bad as me.</p>
+
+		<p>So there is my brief history of my photography. Follow me on Twitter and Facebook to get the latest news on my photography. I hope to add to these photos just as soon as I can take a break from working to travel. Gotta pay for the travel somehow.</p>
+	</article>
+        
+                
+    </section>
+
+{% endblock %}

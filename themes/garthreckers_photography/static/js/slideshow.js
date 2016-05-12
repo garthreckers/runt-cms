@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".slider > div:gt(0)").hide();setInterval(function(){$('.slider-inner').stop(true,true);$('.slider > div:first').fadeOut(2000).next('div').fadeIn(2000).end().appendTo('.slider');},4000);});

@@ -32,8 +32,6 @@ class PageController():
 				err_return['title'] = "Title is required"
 			if not request.form['slug']:
 				err_return['slug'] = "Slug is required"
-			if not request.form['content']:
-				err_return['content'] = "Content is required"
 			if not err_return:
 				
 				p = Pages(title=request.form['title'], slug=request.form['slug'], \
@@ -115,8 +113,6 @@ class PageController():
 					err_return['title'] = "Title is required"
 				if not request.form['slug']:
 					err_return['slug'] = "Slug is required"
-				if not request.form['content']:
-					err_return['content'] = "Content is required"
 				if not err_return:
 					p_update = Pages().update(title=request.form['title'], slug=request.form['slug'], \
 						content=request.form['content']).where(Pages.id == id).execute()

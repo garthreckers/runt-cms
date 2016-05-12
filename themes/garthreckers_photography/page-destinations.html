@@ -1,0 +1,25 @@
+{% extends 'base-template.html' %}
+
+{% block main_content %}
+
+<section class="post">
+
+	<hgroup>
+		<h1>{{ content.title }}</h1>
+	</hgroup>
+
+	<div class="content-left">
+		<article>{{ content.content | safe }}</article>
+	</div>
+
+	<div class="content-right">
+
+		<aside>
+		&nbsp;
+		</aside>
+			
+	</div>
+
+</section>
+
+{% endblock %}

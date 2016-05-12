@@ -1,0 +1,8 @@
+{
+	"objects": {
+		"photos": {
+			"fields": "*",
+			"limit": "2"
+		}
+	}
+}

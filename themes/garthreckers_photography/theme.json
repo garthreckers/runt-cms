@@ -1,0 +1,20 @@
+{
+	"theme_details": {
+		"name": "Garth Reckers Photography",
+		"author": "Garth Reckers",
+		"copyright": "© Garth Reckers 2016"
+	},
+	"globals": "",
+	"image_sizes": {
+		"home-roto": {
+			"crop": "hard",
+			"width": "984",
+			"height": "400"
+		},
+		"archive-crop": {
+			"crop": "hard",
+			"width": "281",
+			"height": "260"
+		}
+	}
+}

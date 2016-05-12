@@ -1,0 +1,29 @@
+{
+	"photos": {
+		"slug": "photos",
+		"display": "Photos",
+		"fields": {
+			"featured_photo": {
+				"type": "photo",
+				"name": "Featured Photo"
+			},
+			"connected_page": {
+				"type": "cross_object",
+				"name": "Connected Page",
+				"object": "destinations"
+			},
+			"location": {
+				"type": "text",
+				"name": "Location"
+			},
+			"datetaken": {
+				"type": "text",
+				"name": "Date Taken"
+			}
+		}
+	},
+	"destinations": {
+		"slug": "destinations",
+		"display": "Destinations"
+	}
+}
