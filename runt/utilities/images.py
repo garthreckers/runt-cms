@@ -13,18 +13,18 @@ class Images():
 		_image_sizes = {
 			"large": {
 				"crop": "soft",
-				"width": "1000",
-				"height": "1000"
+				"width": 1000,
+				"height": 1000
 			},
 			"medium": {
 				"crop": "soft",
-				"width": "500",
-				"height": "500"
+				"width": 500,
+				"height": 500
 			},
 			"small": {
 				"crop": "hard",
-				"width": "200",
-				"height": "200"
+				"width": 200,
+				"height": 200
 			}
 		}
 
@@ -54,7 +54,7 @@ class Images():
 
 			print(_is_details)
 
-			size = (int(_is_details['width']), int(_is_details['height']))
+			size = (_is_details['width'], _is_details['height'])
 			image_ratio = im.size[0] / im.size[1]
 			ratio = size[0] / size[1]
 

@@ -8,13 +8,13 @@
 	"image_sizes": {
 		"home-roto": {
 			"crop": "hard",
-			"width": "984",
-			"height": "400"
+			"width": 984,
+			"height": 400
 		},
 		"archive-crop": {
 			"crop": "hard",
-			"width": "281",
-			"height": "260"
+			"width": 281,
+			"height": 260
 		}
 	}
 }
